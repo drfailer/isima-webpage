@@ -5,27 +5,65 @@
  */
 
 .icon-line {
-    width: 45px;
-    height: 7px;
     background-color: gray;
-    margin: 8px 0;
 }
+
+#wrap {
+    margin: 0;
+    z-index: 99;
+    background-color: #010101;
+    display: flex;
+    /* border */
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #222222;
+}
+
+.navbar li {
+    float: left;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #010101;
+}
+
+.navbar a {
+    padding: 18px 0;
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.navbar li:hover,
+a:hover {
+    background-color: #222222;
+}
+
+
+.navbar li ul {
+    display: none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li ul li {
+    background-color: #000000;
+}
+
+.navbar li ul li a:hover {
+    background-color: #222222;
+}
+
 
 /* PC */
 @media (min-width:65em) {
     #wrap {
 	width: 100%;
 	height: 50px;
-	margin: 0;
-	z-index: 99;
-	position: relative;
-	background-color: #010101;
-	display: flex;
 	justify-content: center;
-	/* border */
-	border-bottom: solid;
-	border-width: 1px;
-	border-color: #222222;
+	position: relative;
     }
 
     .navbar {
@@ -39,45 +77,11 @@
     .navbar li {
 	height: 50px;
 	width: 135.8px;
-	float: left;
-	text-align: center;
-	list-style: none;
 	font: normal bold 13px/1em Arial, Verdana, Helvetica;
-	padding: 0;
-	margin: 0;
-	background-color: #010101;
-    }
-
-    .navbar a {
-	padding: 18px 0;
-	/* border-left: 1px solid #ccc9c9; */ /* miss the right border for the last item */
-	text-decoration: none;
-	color: white;
-	display: block;
-    }
-
-    .navbar li:hover,
-    a:hover {
-	background-color: #222222;
-    }
-
-    .navbar li ul {
-	display: none;
-	height: auto;
-	margin: 0;
-	padding: 0;
     }
 
     .navbar li:hover ul {
 	display: block;
-    }
-
-    .navbar li ul li {
-	background-color: #000000;
-    }
-
-    .navbar li ul li a:hover {
-	background-color: #222222;
     }
 
     /* hide menu button for phones */
@@ -88,25 +92,24 @@
 }
 
 /*******************************************************************************/
-/* Phone */
-@media (max-width:65em) {
+/* Small PC */
+@media (max-width:65em)
+and (min-device-width: 500px){
+    .icon-line {
+	width: 45px;
+	height: 7px;
+	margin: 8px 0;
+    }
+
     #phone-menu-button {
 	margin: 5px 5px 5px 10px;
     } 
 
     #wrap {
-	width: 0;
-	margin: 0; /* put all elements on one column */
-	z-index: 99;
+	width: 0; /* put all elements on one column */
+	flex-direction: column;
 	position: absolute;
 	top: 0;
-	background-color: #010101;
-	display: flex;
-	flex-direction: column;
-	/* border */
-	border-bottom: solid;
-	border-width: 1px;
-	border-color: #222222;
     }
 
     .navbar {
@@ -119,33 +122,10 @@
     .navbar li {
 	height: 50px;
 	width: 150px;
-	float: left;
-	text-align: center;
-	list-style: none;
 	font: normal 20px/1em Arial, Verdana, Helvetica;
-	padding: 0;
-	margin: 0;
-	background-color: #010101;
-    }
-
-    .navbar a {
-	padding: 18px 0;
-	/* border-left: 1px solid #ccc9c9; */ /* miss the right border for the last item */
-	text-decoration: none;
-	color: white;
-	display: block;
-    }
-
-    .navbar li:hover,
-    a:hover {
-	background-color: #222222;
     }
 
     .navbar li ul {
-	display: none;
-	height: auto;
-	margin: 0;
-	padding: 0;
 	transform: translate(150px, -56px);
     }
 
@@ -153,12 +133,47 @@
 	display: flex;
 	flex-direction: column;
     }
+}
 
-    .navbar li ul li {
-	background-color: #000000;
+/*******************************************************************************/
+/* Phone */
+@media (max-device-width: 500px){
+    .icon-line {
+	width: 5vh;
+	height: 1vh;
+	margin: 1vh 0;
     }
 
-    .navbar li ul li a:hover {
-	background-color: #222222;
+    #phone-menu-button {
+	margin: 5px 5px 5px 10px;
+    } 
+
+    #wrap {
+	width: 0; /* put all elements on one column */
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+    }
+
+    .navbar {
+	height: 50px;
+	padding: 0;
+	margin: 0;
+	position: relative;
+    }
+
+    .navbar li {
+	height: 5vh;
+	width: 20vh;
+	font: normal 3vh Arial, Verdana, Helvetica;
+    }
+
+    .navbar li ul {
+	transform: translate(20vh, -5vh);
+    }
+
+    .navbar li:hover ul {
+	display: flex;
+	flex-direction: column;
     }
 }
