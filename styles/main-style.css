@@ -83,6 +83,7 @@ footer ul {
     /* Main title font size */
     #titlebg h1 {
 	font-size: 50px;
+	width: 90%;
     }
 
     /* Content */
@@ -102,7 +103,7 @@ footer ul {
     }
 
     .content p,h1 {
-	max-width: 60%;
+	max-width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
     }
@@ -112,7 +113,8 @@ footer ul {
 @media (max-width:65em) {
     /* Main title font size */
     #titlebg h1 {
-	font-size: 15px;
+	font-size: 20px;
+	width: 100%;
     }
 
     /* Content */
