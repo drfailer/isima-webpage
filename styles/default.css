@@ -1,14 +1,17 @@
-/* ----------------------------- */
-/* ==reset */
-/* ----------------------------- */
+/* --------------------------------------------------------------------------------- */
+/* BASIC STYLESHEET                                                                  */
+/* url: https://www.alsacreations.com/astuce/lire/654-feuille-de-styles-de-base.html */
+/* --------------------------------------------------------------------------------- */
 
 /* base font-size corresponds to 10px and is adapted to rem unit */
 html {
 	font-size: 62.5%;
 }
 body {
-	background-color: #fff;
-	color: #000;
+	background-color: 
+#fff;
+	color: 
+#000;
 	font-family: "Century Gothic", helvetica, arial, sans-serif;
 	font-size: 1.4em; /* equiv 14px */
 	line-height: 1.5; /* adapt to your design */
@@ -27,8 +30,8 @@ th,
 label,
 textarea,
 caption,
-details,
-figure,
+details, 
+figure, 
 hgroup {
 	font-size: 1em; /* equiv 14px */
 	line-height: 1.5;
@@ -106,7 +109,7 @@ ul,
 ol {
 	padding-left: 2em;
 }
-code,
+code, 
 pre,
 samp {
 	white-space: pre-wrap;
@@ -178,14 +181,15 @@ body > script {display: none !important;}
 	position: absolute;
 	left: -9999px;
 	padding: 0.5em;
-	background: #000;
-	color:#fff;
+	background: 
+#000;
+	color:
+#fff;
 	text-decoration: none;
 }
 .skip-links a:focus {
 	position: static;
 }
-
 
 /* --- STYLES DE BASE SUPPLÉMENTAIRES --- */
 
@@ -199,7 +203,8 @@ abbr[title] {
 blockquote {
   margin: .75em 0 .75em 20px;
   padding: 0 0 0 10px;
-  border-left: solid 2px #ddd;
+  border-left: solid 2px 
+#ddd;
 }
 q, cite {
   font-style: italic;
@@ -236,13 +241,15 @@ dd {
 /* Mise en forme simple pour les tableaux */
 table {
   margin: 0;
-  border: 1px solid gray; /* Pas de bordure = "none". */
+  border: 1px solid 
+gray; /* Pas de bordure = "none". */
   border-collapse: collapse; /* Valeur par défaut: "separate". */
   border-spacing: 0;
 }
 table td, table th {
   padding: 4px; /* Pas de retrait autour du texte = "0". */
-  border: 1px solid #ccc; /* Pas de bordure = "none". */
+  border: 1px solid 
+#ccc; /* Pas de bordure = "none". */
   vertical-align: top; /* Valeur par défaut: "middle" */
 }
 
