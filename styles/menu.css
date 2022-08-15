@@ -5,10 +5,10 @@
  */
 
 .icon-line {
-    width: 35px;
-    height: 5px;
+    width: 45px;
+    height: 7px;
     background-color: gray;
-    margin: 6px 0;
+    margin: 8px 0;
 }
 
 /* PC */
@@ -91,14 +91,15 @@
 /* Phone */
 @media (max-width:65em) {
     #phone-menu-button {
-	margin: 5px 5px 5px 5px;
+	margin: 5px 5px 5px 10px;
     } 
 
     #wrap {
 	width: 0;
 	margin: 0; /* put all elements on one column */
 	z-index: 99;
-	position: relative;
+	position: absolute;
+	top: 0;
 	background-color: #010101;
 	display: flex;
 	flex-direction: column;
@@ -117,11 +118,11 @@
 
     .navbar li {
 	height: 50px;
-	width: 135.8px;
+	width: 150px;
 	float: left;
 	text-align: center;
 	list-style: none;
-	font: normal bold 13px/1em Arial, Verdana, Helvetica;
+	font: normal 20px/1em Arial, Verdana, Helvetica;
 	padding: 0;
 	margin: 0;
 	background-color: #010101;
@@ -145,7 +146,7 @@
 	height: auto;
 	margin: 0;
 	padding: 0;
-	transform: translate(135.8px, -49px);
+	transform: translate(150px, -56px);
     }
 
     .navbar li:hover ul {
