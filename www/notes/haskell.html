@@ -1,0 +1,2225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-18 Sun 16:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Haskell</title>
+<meta name="author" content="drfailer" />
+<meta name="description" content="Some notes on haskell." />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<style type:"text/css">
+html {
+font-size: 95%;
+}
+body {
+background-color: #000000;
+color: #fff;
+font-family: "Century Gothic", helvetica, arial, sans-serif;
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+}
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+td,
+th,
+label,
+textarea,
+caption,
+details,
+figure,
+hgroup {
+font-size: 1em; /* equiv 14px */
+line-height: 1.5;
+}
+h1, .h1-like {
+font-size: 1.8571em; /* equiv 26px */
+font-weight: normal;
+line-height: 1.6154em;
+margin: 15px 0 2px;
+color: #fafafa;
+}
+h2, .h2-like {
+font-size: 1.7143em; /* equiv 24px */
+font-weight: normal;
+line-height: 1.75em;
+margin: 12px 0 2px;
+color: #FBFFC4;
+}
+h3, .h3-like {
+font-size: 1.5714em; /* equiv 22px */
+font-weight: normal;
+line-height: 1.909em;
+margin: 10px 0 2px;
+color: #CAF4FF;
+}
+h4, .h4-like {
+font-size: 1.4286em; /* equiv 20px */
+font-weight: normal;
+line-height: 1.05em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h5, .h5-like {
+font-size: 1.2857em; /* equiv 18px */
+font-weight: normal;
+line-height: 1.1667em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h6, .h6-like {
+font-size: 1.1429em; /* equiv 16px */
+font-weight: normal;
+line-height: 1.3125em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+.smaller {
+font-size: .7143em; /* equiv 10px */
+line-height: 2.1em;
+}
+.small {
+font-size: .8571em; /* equiv 12px */
+line-height: 1.75em;
+}
+.big {
+font-size: 1.1429em; /* equiv 16px */
+line-height: 1.3125em;
+}
+.bigger {
+font-size: 1.2857em; /* equiv 18px */
+line-height: 1.1667em;
+}
+.biggest {
+font-size: 1.4286em; /* equiv 20px */
+line-height: 1.05em;
+}
+html,
+body,
+textarea,
+figure,
+label {
+margin: 0;
+padding: 0;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+code,
+pre,
+samp {
+white-space: pre-wrap;
+font-family: consolas, 'DejaVu Sans Mono', courier, monospace;
+}
+code { line-height: 1em; }
+table { margin-bottom: 1.5em; }
+p:first-child,
+ul:first-child,
+ol:first-child,
+dl:first-child,
+blockquote:first-child,
+pre:first-child,
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+margin-top: 0;
+}
+li p,
+li ul,
+li ol {
+margin-top: 0;
+margin-bottom: 0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+display: block;
+}
+img, table, td, blockquote, code, pre, textarea, input, video {
+max-width: 100%;
+}
+div, textarea, table, td, th, code, pre, samp {
+word-wrap: break-word;
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+-ms-hyphens: auto;
+-o-hyphens: auto;
+hyphens: auto;
+}
+img {
+width: auto;
+height: auto;
+vertical-align: middle;
+}
+a img { border: 0; }
+body > script {display: none !important;}
+.skip-links {
+position: absolute;
+}
+.skip-links a {
+position: absolute;
+left: -9999px;
+padding: 0.5em;
+background: #000;
+color:#fff;
+text-decoration: none;
+}
+.skip-links a:focus {
+position: static;
+}
+abbr[title] {
+border-bottom: 1px dotted;
+cursor: help;
+}
+blockquote {
+margin: .75em 0 .75em 20px;
+padding: 0 0 0 10px;
+border-left: solid 2px #ddd;
+}
+q, cite {
+font-style: italic;
+}
+q cite, q q {
+font-style: normal
+}
+q {
+quotes: none;
+}
+q:before, q:after {
+content: ""; /* Nécessaire pour Safari/Chrome */
+}
+blockquote p, li p {
+margin: .5em 0;
+}
+dl {
+margin: .75em 0;
+}
+dt {
+margin: .75em 0 0 0;
+font-weight: bold;
+}
+dd {
+margin: .25em 0 .25em 32px;
+}
+table {
+margin: 0;
+border: 1px solid gray; /* Pas de bordure = "none". */
+border-collapse: collapse; /* Valeur par défaut: "separate". */
+border-spacing: 0;
+}
+table td, table th {
+padding: 4px; /* Pas de retrait autour du texte = "0". */
+border: 1px solid #ccc; /* Pas de bordure = "none". */
+vertical-align: top; /* Valeur par défaut: "middle" */
+}
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section {
+display: block;
+}
+a {
+color: #F0F0F0;
+}
+pre {
+background-color: #020202;
+overflow: auto;
+font-family: 'Monaco', monospace;
+padding: 0 1em;
+}
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Haskell</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgaa873ce">Les Bases</a>
+<ul>
+<li><a href="#org1bf8b49">Généralités</a></li>
+<li><a href="#org845ade9">Les bases</a></li>
+</ul>
+</li>
+<li><a href="#orgc0b5650">Les Listes</a>
+<ul>
+<li><a href="#org5db2a1f">Exemples</a></li>
+</ul>
+</li>
+<li><a href="#orgdbe30f0">Les Fonctions</a>
+<ul>
+<li><a href="#orge179a43">Les bases</a></li>
+<li><a href="#orgd3d71ae">Opérateur d'évaluation '$'</a></li>
+<li><a href="#org99c2795">Les fonctions annonymes ou lambda</a></li>
+<li><a href="#org7673fc6">Récursion</a></li>
+<li><a href="#org9340234">Currying</a></li>
+<li><a href="#org97c1f23">Composition de fonctions</a></li>
+<li><a href="#org1819bb6">Quelques fonctions de bases</a></li>
+<li><a href="#orga279c0c">Les `let` bindings</a></li>
+<li><a href="#org35c1b1d">Les Fonctions d'ordre supérieur</a></li>
+</ul>
+</li>
+<li><a href="#orgebfa264">Types et classes</a>
+<ul>
+<li><a href="#orge17cc2d">Data Types</a></li>
+<li><a href="#org8497601">Classes de types</a></li>
+</ul>
+</li>
+<li><a href="#orge170939">Typesclasses</a>
+<ul>
+<li><a href="#org7ca4458">Type paramétrique</a></li>
+<li><a href="#orgfb29477">Contraintes</a></li>
+<li><a href="#orgcf5d08d">Informations sur une classe</a></li>
+<li><a href="#orgfb5b45e">Exemple</a></li>
+</ul>
+</li>
+<li><a href="#org6f6025f">Les Modules</a></li>
+<li><a href="#orgf259d56">Foldings</a>
+<ul>
+<li><a href="#org36eb8f4">Les Fonctions</a></li>
+<li><a href="#org006e8db">Exemples</a></li>
+</ul>
+</li>
+<li><a href="#orgd9d7525">Entrée sortie avec IO</a>
+<ul>
+<li><a href="#orgc55ac7f">Monades</a></li>
+</ul>
+</li>
+<li><a href="#orgb7a9e56">Environnement</a></li>
+<li><a href="#orgd3a175c">Maybe</a>
+<ul>
+<li><a href="#org95f0c05">Exemple</a></li>
+<li><a href="#orgda65e16">Fonctions</a></li>
+</ul>
+</li>
+<li><a href="#org847c90d">Functor</a>
+<ul>
+<li><a href="#orgd06d7f4">Exemple fmap</a></li>
+</ul>
+</li>
+<li><a href="#org1954849">Les Monad</a>
+<ul>
+<li><a href="#orge763f7a">Propriétés</a></li>
+<li><a href="#org3dfca86">Exemple</a></li>
+<li><a href="#orgedcb19e">Autres Monad</a></li>
+<li><a href="#org00c228c">Raccourci</a></li>
+<li><a href="#orga8fe2e6">Notation `do`</a></li>
+</ul>
+</li>
+<li><a href="#org01b7b58">Les Monoids</a>
+<ul>
+<li><a href="#orgc6119c1">Fonctionnement</a></li>
+</ul>
+</li>
+<li><a href="#org79a83d6">Applicative</a>
+<ul>
+<li><a href="#org4d2d276">Exemple</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgaa873ce" class="outline-2">
+<h2 id="orgaa873ce">Les Bases</h2>
+<div class="outline-text-2" id="text-orgaa873ce">
+</div>
+<div id="outline-container-org1bf8b49" class="outline-3">
+<h3 id="org1bf8b49">Généralités</h3>
+<div class="outline-text-3" id="text-org1bf8b49">
+<ul class="org-ul">
+<li>fonctionnel pur (jamais d'effet de bord)</li>
+<li>évaluation paresseuse (permet notemment de faire des listes infinies)</li>
+<li>utilisations: compilation, DSL, web backend&#x2026;</li>
+<li>CLI: <code>ghci</code> (<code>:l file</code> pour charger <b>file.hs</b>)</li>
+<li>interpreteur: <code>runghc</code></li>
+<li>compilateur: <code>ghc</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org845ade9" class="outline-3">
+<h3 id="org845ade9">Les bases</h3>
+<div class="outline-text-3" id="text-org845ade9">
+</div>
+<div id="outline-container-orgcacdfc8" class="outline-4">
+<h4 id="orgcacdfc8">Les variables</h4>
+<div class="outline-text-4" id="text-orgcacdfc8">
+<p>
+Les noms des variables commences toujours par une minuscules.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">monEntier :: Int
+monEntier = 12
+
+maChaine :: String
+maChaine = "Hello World!"
+
+main = print monEntier
+</pre>
+</div>
+
+<p>
+<b><b>Important:</b></b> Les variables sont immuables, on ne peut pas les redéfinirs.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">x :: Int
+x = 2
+x = 3
+</pre>
+</div>
+
+<pre class="example" id="org51907b8">
+error:
+    Multiple declaration of 'x'
+    ...
+</pre>
+
+
+<p>
+Sensible à l'indentation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">x = y + z
+  where y = 2
+	z = 3
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7740faf" class="outline-4">
+<h4 id="org7740faf">Les opérateurs</h4>
+<div class="outline-text-4" id="text-org7740faf">
+</div>
+<div id="outline-container-orgfea885f" class="outline-5">
+<h5 id="orgfea885f">Opérateurs logiques</h5>
+<div class="outline-text-5" id="text-orgfea885f">
+<div class="org-src-container">
+<pre class="src src-haskell">True &amp;&amp; False
+True || False
+not False
+not (True &amp;&amp; True)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge82ccf5" class="outline-5">
+<h5 id="orge82ccf5">Tests d'égalité</h5>
+<div class="outline-text-5" id="text-orge82ccf5">
+<div class="org-src-container">
+<pre class="src src-haskell">5 == 5 -- True
+5 /= 5 -- False
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf5c471" class="outline-4">
+<h4 id="orgbf5c471">Les Types</h4>
+<div class="outline-text-4" id="text-orgbf5c471">
+</div>
+<div id="outline-container-org293b71d" class="outline-5">
+<h5 id="org293b71d">Les types de bases</h5>
+<div class="outline-text-5" id="text-org293b71d">
+<div class="org-src-container">
+<pre class="src src-haskell">entier :: Int
+entier = 4
+
+reel :: Float
+reel = 4.1
+
+doubleRell :: Double
+doubleRell = 4.678965
+
+booleen :: Bool
+booleen = True
+
+caractere :: Char
+caractere = 'c'
+
+chaine :: String
+chaine = "hello"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d60b89" class="outline-5">
+<h5 id="org2d60b89">Les types composés</h5>
+<div class="outline-text-5" id="text-org2d60b89">
+<div class="org-src-container">
+<pre class="src src-haskell">-- tuples
+x :: (Int, String)
+x = (42, "toto")
+
+-- listes
+l :: [Int]
+l = [1, 2, 3, 4, 5]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1decec8" class="outline-4">
+<h4 id="org1decec8">Les instructions conditionnelles</h4>
+<div class="outline-text-4" id="text-org1decec8">
+<div class="org-src-container">
+<pre class="src src-haskell">formaterParite :: Int -&gt; String
+formaterParite x = if even x then "pair" else "impair"
+
+formaterNombre :: Int -&gt; String
+formaterNombre x = case x of
+  0 -&gt; "zero"
+  1 -&gt; "un"
+  otherwise -&gt; "plusieurs"
+
+
+main = do
+  print $ formaterParite 1 -- affiche impair
+  print $ formaterParite 2 -- affiche pair
+  print $ formaterNombre 0 -- affiche "zero"
+  print $ formaterNombre 1 -- affiche "un"
+  print $ formaterNombre 2 -- affiche "plusieurs"
+</pre>
+</div>
+
+<p>
+A noter que la fonction `odd` renvoie <b><b>True</b></b> quand le nombre est impair.
+</p>
+</div>
+
+<div id="outline-container-org7930fb7" class="outline-5">
+<h5 id="org7930fb7">Patern matching</h5>
+<div class="outline-text-5" id="text-org7930fb7">
+<div class="org-src-container">
+<pre class="src src-haskell">formaterNombre' :: Int -&gt; String
+formaterNombre' 0 = "zero !"
+formaterNombre' 1 = "un !"
+formaterNombre' _ = "plusieurs !"
+
+
+main = do
+  print $ formaterNombre' 0 -- affiche "zero !"
+  print $ formaterNombre' 1 -- affiche "un !"
+  print $ formaterNombre' 2 -- affiche "plusieurs !"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0abe57d" class="outline-5">
+<h5 id="org0abe57d">Gardes</h5>
+<div class="outline-text-5" id="text-org0abe57d">
+<div class="org-src-container">
+<pre class="src src-haskell">formaterNombre' :: Int -&gt; String
+formaterNombre' x
+  | x == 0    = "zero !!"
+  | x &lt; 0     = "negatif !!"
+  | otherwise = "positif !!"
+
+
+main = do
+  print $ formaterNombre' 0    -- affiche "zero !!"
+  print $ formaterNombre' (-1) -- affiche "negatif !!"
+  print $ formaterNombre' 2    -- affiche "positif !!"
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc0b5650" class="outline-2">
+<h2 id="orgc0b5650">Les Listes</h2>
+<div class="outline-text-2" id="text-orgc0b5650">
+<div class="org-src-container">
+<pre class="src src-haskell">l :: [Int]
+l = l:[] -- déclaration d'une liste vide
+</pre>
+</div>
+
+<p>
+<b>IMPORTANT:</b> les listes ne peuvent stocker qu'un seul type. Si on veux
+stocker plus de types, on peut les combiner au <b>tuples</b>.
+</p>
+</div>
+
+<div id="outline-container-org2f1b087" class="outline-4">
+<h4 id="org2f1b087">Opérations sur les listes</h4>
+<div class="outline-text-4" id="text-org2f1b087">
+<div class="org-src-container">
+<pre class="src src-haskell">3:[1, 2]       -- ajout de 3 en tête
+[1, 2] ++ [3, 4] -- retourne la concaténation des deux listes
+[1, 2, 3, 4] !! 2 -- retourne 2 !
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga57b19b" class="outline-4">
+<h4 id="orga57b19b">Dans les fonctions</h4>
+<div class="outline-text-4" id="text-orga57b19b">
+<div class="org-src-container">
+<pre class="src src-haskell">doubler :: [Int] -&gt; [Int]
+doubler [] = [] -- cas de base
+doubler (x:xs) = (x * 2) : (doubler xs)
+
+main = do
+  doubler [1..4] -- retourne [2, 4, 6, 8]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfa74fa0" class="outline-4">
+<h4 id="orgfa74fa0">Mapping de fonction</h4>
+<div class="outline-text-4" id="text-orgfa74fa0">
+<p>
+Permet d'appliquer une fonction sur chaque éléments de la liste et simplifie
+grandement les notations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">doubler :: [Int] -&gt; [Int]
+doubler = map (\ x -&gt; x * 2)
+</pre>
+</div>
+
+<p>
+Pas besoin de préciser map (\ x -&gt; x * 2) l car map est une fonction d'order
+supérieur. On peut simplifier cet écriture comme ceci:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">doubler :: [Int] -&gt; [Int]
+doubler = map (*2)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2699a28" class="outline-5">
+<h5 id="org2699a28">Autre exemple</h5>
+<div class="outline-text-5" id="text-org2699a28">
+<div class="org-src-container">
+<pre class="src src-haskell">map (\x -&gt; x+1) [1,2,3,4,5]
+map (\(x,y) -&gt; x+y) [(1, 2), (3, 4), (5, 6)]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgffeb41b" class="outline-4">
+<h4 id="orgffeb41b">Filtrage</h4>
+<div class="outline-text-4" id="text-orgffeb41b">
+<div class="org-src-container">
+<pre class="src src-haskell">pairs :: [Int] -&gt; [Int]
+pairs = filter even -- l =&gt; pas besoin (ordre supérieur)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org376df5f" class="outline-4">
+<h4 id="org376df5f">Réduction</h4>
+<div class="outline-text-4" id="text-org376df5f">
+<div class="org-src-container">
+<pre class="src src-haskell">somme :: [Int] -&gt; [Int]
+somme = foldl (\ acc x -&gt; acc + x) 0
+--            ( comment maj acc  ) acc_0
+</pre>
+</div>
+
+<p>
+Encore une fois, on peut simplifier les notations:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">somme :: [Int] -&gt; [Int]
+somme = foldl (+) 0
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc423814" class="outline-4">
+<h4 id="orgc423814">Les progressions</h4>
+<div class="outline-text-4" id="text-orgc423814">
+<div class="org-src-container">
+<pre class="src src-haskell">[1..4] -- [1, 2, 3, 4]
+[1, 2, 4, 8, 16..100]
+[20, 19..1]
+[1, 2..] -- liste infinie
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga002b6f" class="outline-4">
+<h4 id="orga002b6f">Compréhentions de listes</h4>
+<div class="outline-text-4" id="text-orga002b6f">
+<p>
+On peut faire des compréhentions de listes, cela marche de la même façon que la
+définition d'ensembles en math.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">main = do
+  print [(x, y) | x&lt;-[1..10], y&lt;-[x..10], x+y == 12]
+
+-- [(2, 10), (3, 9), (4, 8), (5, 7), (6, 6)]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0ac21ea" class="outline-4">
+<h4 id="org0ac21ea">Renverser une liste</h4>
+<div class="outline-text-4" id="text-org0ac21ea">
+<p>
+Ici on met les valeurs de la liste <code>x</code> dans <code>acc</code> qui au départ est vide. A
+chaque fois, on fait un ajout en tête de acc <code>x : acc</code> (rappel: <code>:</code>
+concaténation d'éléments simples) de la valeur de x (qui prend les valeurs de
+la liste en entrée dans l'ordre). On <b>"transvase"</b> donc les valeurs de <code>x</code> dans
+<code>acc</code>, qui à la fin correspond à la liste retournée.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">renverser :: [Int] -&gt; [Int]
+renverser = foldl (\acc x -&gt; x : acc) []
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org58b7700" class="outline-4">
+<h4 id="org58b7700">Fonctions utiles</h4>
+<div class="outline-text-4" id="text-org58b7700">
+<div class="org-src-container">
+<pre class="src src-haskell">head [1, 2, 3, 4, 5] -- 1
+tail [1, 2, 3, 4, 5] -- [2, 3, 4, 5]
+last [1, 2, 3, 4, 5] -- 5
+init [1, 2, 3, 4, 5] -- [1, 2, 3, 4]
+</pre>
+</div>
+
+<p>
+Attention, les fonctions précédentes génèrent des erreurs si la liste est vide,
+il faut donc le faire au préalable.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">length [1, 2, 3, 4, 5] -- 5
+null [] -- True
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Fonction</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>reverse l</code></td>
+<td class="org-left">retourne la liste</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>take x l</code></td>
+<td class="org-left">récupère <b><b>x</b></b> éléments dans <b><b>l</b></b> depuis la tête</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>drope x l</code></td>
+<td class="org-left">supprime <b><b>x</b></b> éléments dans <b><b>l</b></b> depuis la tête</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>maximum l</code></td>
+<td class="org-left">retourne la plus grande valeur</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>minimum l</code></td>
+<td class="org-left">retourne la plus petite valeur</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sum l</code></td>
+<td class="org-left">retourne la somme des éléments de l</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>product l</code></td>
+<td class="org-left">retourne le produit des éléments de l</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>and l</code></td>
+<td class="org-left">retourne <b><b>true</b></b> si la liste contient que des <b><b>true</b></b></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>or l</code></td>
+<td class="org-left">retourne <b><b>true</b></b> si la liste contient un <b><b>true</b></b></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8fafe95" class="outline-4">
+<h4 id="org8fafe95">Cycle et repeat</h4>
+<div class="outline-text-4" id="text-org8fafe95">
+<pre class="example" id="org560a623">
+ghci&gt; take 10 (cycle [1,2,3])
+[1,2,3,1,2,3,1,2,3,1]
+ghci&gt; take 12 (cycle "LOL ")
+"LOL LOL LOL "
+ghci&gt; take 10 (repeat 5)
+[5,5,5,5,5,5,5,5,5,5]
+ghci&gt; replicate 3 10
+[10,10,10]
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5db2a1f" class="outline-3">
+<h3 id="org5db2a1f">Exemples</h3>
+<div class="outline-text-3" id="text-org5db2a1f">
+</div>
+<div id="outline-container-org0b26956" class="outline-4">
+<h4 id="org0b26956">elem</h4>
+<div class="outline-text-4" id="text-org0b26956">
+<div class="org-src-container">
+<pre class="src src-haskell">elem :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
+elem _ [] = False
+elem e (x:xs) = (e == x) || (elem e xs)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5335471" class="outline-4">
+<h4 id="org5335471">nub</h4>
+<div class="outline-text-4" id="text-org5335471">
+<p>
+Remove duplicate values.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">nub :: (Eq a) =&gt; [a] -&gt; [a]
+nub [] = []
+nub (x:xs)
+  | x `elem` xs = nub xs
+  | otherwise   = x : nb xs
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6d82bde" class="outline-4">
+<h4 id="org6d82bde">isAsc</h4>
+<div class="outline-text-4" id="text-org6d82bde">
+<div class="org-src-container">
+<pre class="src src-haskell">isAsc :: [Int] -&gt; Bool
+isAsc [] = True
+isAsc [x] = True
+isAsc (x:y:xs) =
+  (x &lt;= y) &amp;&amp; isAsc (y:xs)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org71eb325" class="outline-4">
+<h4 id="org71eb325">hasPath</h4>
+<div class="outline-text-4" id="text-org71eb325">
+<p>
+Return <b>true</b> if a path exists in a directed graph.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">hasPath :: [(Int, Int)] -&gt; Int -&gt; Int -&gt; Bool
+hasPath [] x y = x == y
+hasPath xs x y
+  | x == y    = True
+  | otherwise =
+    let xs' = [ (n,m) | (n,m) &lt;- xs, n /= x ] in
+    or [ hasPath xs' m y | (n,m) &lt;- xs, n == x ]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdbe30f0" class="outline-2">
+<h2 id="orgdbe30f0">Les Fonctions</h2>
+<div class="outline-text-2" id="text-orgdbe30f0">
+</div>
+<div id="outline-container-orge179a43" class="outline-3">
+<h3 id="orge179a43">Les bases</h3>
+<div class="outline-text-3" id="text-orge179a43">
+<div class="org-src-container">
+<pre class="src src-haskell">-- Type de la fonction
+Int -&gt; Int
+f x = x*2
+
+main = print (f 21)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ajouter :: Int -&gt; Int -&gt; Int
+ajouter x y = x + y
+
+main = print (ajouter 12 6)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3d71ae" class="outline-3">
+<h3 id="orgd3d71ae">Opérateur d'évaluation '$'</h3>
+<div class="outline-text-3" id="text-orgd3d71ae">
+<div class="org-src-container">
+<pre class="src src-haskell">-- Type de la fonction
+Int -&gt; Int
+f x = x*2
+
+main = print $ f 21
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org99c2795" class="outline-3">
+<h3 id="org99c2795">Les fonctions annonymes ou lambda</h3>
+<div class="outline-text-3" id="text-org99c2795">
+<div class="org-src-container">
+<pre class="src src-haskell">main = print $ (\ n -&gt; 10+n) 32
+-- affiche 42
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7673fc6" class="outline-3">
+<h3 id="org7673fc6">Récursion</h3>
+<div class="outline-text-3" id="text-org7673fc6">
+<div class="org-src-container">
+<pre class="src src-haskell">factorielle Int -&gt; Int
+factorielle 1 = 1
+factorielle n = n * factorielle (n - 1)
+</pre>
+</div>
+
+<p>
+Cette dernière fonction nous oblige de déscendre dans l'arbre récursif pour
+pourvoir calculer <code>factorielle (n - 1)</code>, ce qui consomme beaucoup de mémoire
+(stockage de la pile d'appel). C'est de la <b><b>récursivité non terminale</b></b>. Pour
+éviter ce problème et optimiser le code, on peut l'écrire en utilisant une
+fonction auxiliaire, de la façon suivante:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">factorielle Int -&gt; Int
+factorielle n = aux 1 n
+  where aux acc 1 = acc
+	aux acc n = aux (acc * n) (n - 1)
+
+-- On remarque que le n est inutile
+factorielle Int -&gt; Int
+factorielle = aux 1
+  where aux acc 1 = acc
+	aux acc n = aux (acc * n) (n - 1)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9340234" class="outline-3">
+<h3 id="org9340234">Currying</h3>
+<div class="outline-text-3" id="text-org9340234">
+<p>
+Décomposition de foncions en plusieurs fonction (la fonction renvoi une
+fonction, &#x2026;)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ajouter :: Int -&gt; Int -&gt; Int
+ajouter x y = x + y
+
+-- Equivalent
+ajouter' :: Int -&gt; Int -&gt; Int
+ajouter' x = \ y -&gt; x + y
+</pre>
+</div>
+
+<p>
+Cela permet de faire de l'évaluation partielle:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">ajouter :: Int -&gt; Int -&gt; Int
+ajouter x y = x + y
+
+ajouter42 :: Int -&gt; Int
+ajouter42 y = ajouter 42 y
+
+{- Equivalent:
+ - retourne la première fonction avec la première valeur initialisée à 42
+-}
+ajouter42' :: Int -&gt; Int
+ajouter42' = ajouter 42
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97c1f23" class="outline-3">
+<h3 id="org97c1f23">Composition de fonctions</h3>
+<div class="outline-text-3" id="text-org97c1f23">
+<div class="org-src-container">
+<pre class="src src-haskell">fois2 x = x * 2
+plus1 x = x + 1
+fois2plus1 x = plus1 (fois2 x)
+
+-- où
+fois2plus1' x = plus1 . fois2 x
+</pre>
+</div>
+
+<p>
+On utilise le point pour relier les entrées/sorties des fonction pour éviter
+d'utiliser des parenthèses (notation <b>"point-free"</b>).
+</p>
+</div>
+
+<div id="outline-container-org0d323eb" class="outline-4">
+<h4 id="org0d323eb">Autre exemple</h4>
+<div class="outline-text-4" id="text-org0d323eb">
+<div class="org-src-container">
+<pre class="src src-haskell">descSort = reverse . sort
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1819bb6" class="outline-3">
+<h3 id="org1819bb6">Quelques fonctions de bases</h3>
+<div class="outline-text-3" id="text-org1819bb6">
+<ul class="org-ul">
+<li><code>max 3 4</code> = <code>4</code></li>
+<li><code>min 3 4</code> = <code>3</code></li>
+<li><code>succ 9</code>  = <code>9</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga279c0c" class="outline-3">
+<h3 id="orga279c0c">Les `let` bindings</h3>
+<div class="outline-text-3" id="text-orga279c0c">
+<p>
+Les <code>let</code> bindings permettent de stocker des valeurs dans les variables.
+Lorsqu'ils sont utilisés avec la notation <code>do</code>, on ne met pas le <code>in</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">in_range min max x =
+  let in_lower_bound = min &lt;= x
+      in_upper_bound = max &gt;= x
+  in
+  in_lower_bound $$ in_upper_bound
+</pre>
+</div>
+
+<p>
+<b>IMPORTANT:</b> on utilise <code>let</code> et <code>=</code> quand on utilise des variables
+temporaires pour stocker le retour d'une expression classique. Dans le cas du
+retour d'une fonction monadique, on utilise <code>&lt;-</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35c1b1d" class="outline-3">
+<h3 id="org35c1b1d">Les Fonctions d'ordre supérieur</h3>
+<div class="outline-text-3" id="text-org35c1b1d">
+<p>
+Une fonction d'ordre supérieur est une fonction qui prend une autre fonction en
+paramètre.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">app :: (a -&gt; b) -&gt; a -&gt; b
+app f x = f x
+</pre>
+</div>
+
+<p>
+Ces fonctions sont souvent utilisées avec les fonctions anonymes.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgebfa264" class="outline-2">
+<h2 id="orgebfa264">Types et classes</h2>
+<div class="outline-text-2" id="text-orgebfa264">
+</div>
+<div id="outline-container-orge17cc2d" class="outline-3">
+<h3 id="orge17cc2d">Data Types</h3>
+<div class="outline-text-3" id="text-orge17cc2d">
+<p>
+On peut définir un nouveau type de la façon suivante:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Forme = Carre Float
+	   | Rectangle Float Float
+
+monCarre :: Forme
+monCarre = Carre 2.0
+
+monRectangle :: Forme
+monRectangle = Rectangle 2.0 1.0
+
+main = do
+  print $ monCarre
+  print $ monRectangle
+</pre>
+</div>
+
+<p>
+On peut manipuler ces types avec des fonctions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">calculerSurface :: Forme -&gt; Float
+calculerSurface (Carre c) = c*c
+calculerSurface (Rectangle w h) = w*h
+
+main = do
+  print $ calculerSurface $ Carre 2
+  print $ calculerSurface (Rectangle 2 3)
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org8b8eb3d" class="outline-4">
+<h4 id="org8b8eb3d">Construction d'un arbre</h4>
+<div class="outline-text-4" id="text-org8b8eb3d">
+<div class="org-src-container">
+<pre class="src src-haskell">data Tree a = Leaf | Node (Tree a) a (Tree a)
+
+tree :: Tree Int
+tree =
+    Node (Node Leaf 1 Leaf) 2 (Node (Node Leaf 3 Leaf) 4 Leaf)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4939362" class="outline-4">
+<h4 id="org4939362">Records</h4>
+<div class="outline-text-4" id="text-org4939362">
+<p>
+Ils sont utilisés pour créer des <b>"accesseurs"</b> pour les champs du type en même
+temps que la création du nouveau type.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Person = Person { name :: String,
+		       age :: Int }
+</pre>
+</div>
+
+<p>
+Ici les fonctions <code>name</code> et <code>age</code> sont créées automatiquement.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">greet :: Person -&gt; [Char]
+greet (Person n _) = "Hi " ++ n
+</pre>
+</div>
+
+<p>
+La fonction ci-dessus devient donc:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">greet :: Person -&gt; [Char]
+greet person = "Hi " ++ name person
+</pre>
+</div>
+
+<p>
+<b>NOTE:</b> les records peuvent êtres utilisé de deux façon:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">import System.IO
+
+data Person = Person { firstName :: String
+		     , lastName :: String
+		     , age :: Int
+		     }
+
+
+main :: IO ()
+main = do
+  -- Note: records can be used in two waye
+  let p1 = Person "frite" "patate" 35
+  let p2 = Person { firstName = "hello"
+		  , lastName = "world"
+		  , age = 42
+		  }
+  putStrLn $ firstName p1
+  putStrLn $ firstName p2
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc339b17" class="outline-4">
+<h4 id="orgc339b17">Avec plusieurs constructeurs</h4>
+<div class="outline-text-4" id="text-orgc339b17">
+<div class="org-src-container">
+<pre class="src src-haskell">data Point = D2 { x :: Int, y :: Int }
+	   | D3 { x :: Int, y :: Int, z :: Int }
+</pre>
+</div>
+
+<p>
+On peut ensuite faire:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">x (D2 1 2)   -- 1
+x (D3 1 2 3) -- 1
+z (D2 1 2)   -- Error
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8497601" class="outline-3">
+<h3 id="org8497601">Classes de types</h3>
+<div class="outline-text-3" id="text-org8497601">
+<p>
+<b>IMPORTANT:</b> une classe de type est un <b>ensemble de type</b>, cela n'a <b><b>rien</b></b>
+à voir avec les classes en programmations orientée objet.
+</p>
+
+<p>
+Le code suivant va retourner une erreur car l'opérateur <code>*</code> n'est pas défini
+pour tous les types:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">doubler :: a -&gt; a
+doubler x = x * 2
+</pre>
+</div>
+
+<p>
+Pour palier à ce problème on utilise la contrainte de type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">doubler :: Num a =&gt; a -&gt; a
+doubler x = x * 2
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8fa820d" class="outline-4">
+<h4 id="org8fa820d">Les classes prédéfinies</h4>
+<div class="outline-text-4" id="text-org8fa820d">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">classe</td>
+<td class="org-left">fonction de la classe</td>
+<td class="org-left">types de la classe</td>
+</tr>
+
+<tr>
+<td class="org-left">:-&#x2013;&#x2014;:</td>
+<td class="org-left">:-----------------------------------&#x2013;&#x2014;:</td>
+<td class="org-left">:-----------------------&#x2013;&#x2014;:</td>
+</tr>
+
+<tr>
+<td class="org-left">`Eq`</td>
+<td class="org-left">`==`, `/=`</td>
+<td class="org-left">`Int`, `Float`, `String`, &#x2026;</td>
+</tr>
+
+<tr>
+<td class="org-left">`Show`</td>
+<td class="org-left">`show`</td>
+<td class="org-left">`Int`, `Float`, `String`, &#x2026;</td>
+</tr>
+
+<tr>
+<td class="org-left">`Num`</td>
+<td class="org-left">`+`, `-`, `*`, `negate`, `abs`, `signum`</td>
+<td class="org-left">`Int`, `Float`, &#x2026;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgad609d9" class="outline-4">
+<h4 id="orgad609d9">Instances de classe</h4>
+<div class="outline-text-4" id="text-orgad609d9">
+<p>
+Dans le code ci-dessous, on spécifie que notre type `Forme` hérite de la classe
+`Show` pour permettre l'affichage.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Forme = Carre Float
+	   | Rectangle Float Float
+	   deriving Show
+</pre>
+</div>
+
+<p>
+Parfois, une classe ne sera pas capable de faire certaines opérations avec
+certains types, il faut donc les redéfinir nous même. Dans le code ci dessous,
+on créé une nouvelle instance de `Show` et on réimplémente la fonction `show`
+pour les `Forme`.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Forme = Carre Float
+	   | Rectangle Float Float
+
+-- redéfinition de la fonction show
+instance Show Forme where
+  -- show :: Forme -&gt; String =&gt; pas obligatoir
+  show (Carre c) = "carre de cote " ++ show c
+  show (Rectangle w h) = "rectangle: " ++ show w ++ "x" ++ show h
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd8aa56e" class="outline-4">
+<h4 id="orgd8aa56e">Créations de classes</h4>
+<div class="outline-text-4" id="text-orgd8aa56e">
+<div class="org-src-container">
+<pre class="src src-haskell">calculerSurface :: Forme -&gt; Float
+calculerSurface (Carre c) = c*c
+calculerSurface (Rectangle w h) = w*h
+
+class Surfacable a where
+  surface :: a -&gt; Float
+
+instance Surfacable Forme where
+  surface = calculerSurface
+
+surfaces :: Surfacable a =&gt; [a] -&gt; [Float]
+surfaces = map surface
+
+main = do
+  print $ surfaces [Carre 2, Rectangle 2 3]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge170939" class="outline-2">
+<h2 id="orge170939">Typesclasses</h2>
+<div class="outline-text-2" id="text-orge170939">
+</div>
+<div id="outline-container-org7ca4458" class="outline-3">
+<h3 id="org7ca4458">Type paramétrique</h3>
+<div class="outline-text-3" id="text-org7ca4458">
+<p>
+Permet de rendre les fonction <b>polymorphiques</b>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">renverser :: [a] -&gt; [a] -- type paramétrique ou générique
+renverser foldl (\acc x -&gt; x : acc) []
+
+main = do
+  print $ renverser [1..4]
+  print $ renverser [1.2, 2.3, 4.5]
+  print $ renverser ['a', 'b']
+  print $ renverser "ab" -- polymorphisme
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb29477" class="outline-3">
+<h3 id="orgfb29477">Contraintes</h3>
+<div class="outline-text-3" id="text-orgfb29477">
+<div class="org-src-container">
+<pre class="src src-haskell">(+) :: Num a =&gt; a -&gt; a -&gt; a
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcf5d08d" class="outline-3">
+<h3 id="orgcf5d08d">Informations sur une classe</h3>
+<div class="outline-text-3" id="text-orgcf5d08d">
+<p>
+Voici les retours de <code>ghci&gt; :info Classe</code>
+</p>
+</div>
+
+<div id="outline-container-org320e695" class="outline-4">
+<h4 id="org320e695">Num</h4>
+<div class="outline-text-4" id="text-org320e695">
+<div class="org-src-container">
+<pre class="src src-haskell">class Num a where
+  (+) :: a -&gt; a -&gt; a
+  (-) :: a -&gt; a -&gt; a
+  (*) :: a -&gt; a -&gt; a
+  negate :: a -&gt; a
+  abs :: a -&gt; a
+  signum :: a -&gt; a
+  fromInteger :: Integer -&gt; a
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1f0c0cf" class="outline-4">
+<h4 id="org1f0c0cf">Show</h4>
+<div class="outline-text-4" id="text-org1f0c0cf">
+<div class="org-src-container">
+<pre class="src src-haskell">class Show a where
+  showsPrec :: Int -&gt; a -&gt; ShowS
+  show :: a -&gt; String
+  showList :: [a] -&gt; ShowS
+  {-# MINIMAL showsPrec | show #-}
+</pre>
+</div>
+
+<p>
+La dernière ligne indique que l'on est pas obligé de tout réinplémenter, il
+suffit de réinplémenter soit <code>showsPrec</code> soit <code>show</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8608a0a" class="outline-4">
+<h4 id="org8608a0a">Eq</h4>
+<div class="outline-text-4" id="text-org8608a0a">
+<div class="org-src-container">
+<pre class="src src-haskell">class Eq a where
+  (==) :: a -&gt; a -&gt; Bool
+  (/=) :: a -&gt; a -&gt; Bool
+  {-# MINIMAL (==) | (/=) #-}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2191f55" class="outline-4">
+<h4 id="org2191f55">Ord</h4>
+<div class="outline-text-4" id="text-org2191f55">
+<div class="org-src-container">
+<pre class="src src-haskell">class Eq a =&gt; Ord a where
+  compare :: a -&gt; a -&gt; Ordering
+  (&lt;) :: a -&gt; a -&gt; Bool
+  (&lt;=) :: a -&gt; a -&gt; Bool
+  (&gt;) :: a -&gt; a -&gt; Bool
+  (&gt;=) :: a -&gt; a -&gt; Bool
+  max :: a -&gt; a -&gt; a
+  min :: a -&gt; a -&gt; a
+  {-# MINIMAL compare | (&lt;=) #-}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb5b45e" class="outline-3">
+<h3 id="orgfb5b45e">Exemple</h3>
+<div class="outline-text-3" id="text-orgfb5b45e">
+<div class="org-src-container">
+<pre class="src src-haskell">data Temperature = C Float | F Float
+
+instance Eq Temperature where
+  (==) (C n) (C m) = n == m
+  (==) (F n) (F m) = n == m
+  (==) (C c) (F f) = (1.8*c + 32) == f
+  (==) (F f) (C c) = (1.8*c + 32) == f
+</pre>
+</div>
+
+<p>
+Si on ne veut pas réécrire les fonctions, on peut utiliser le mot clé
+<code>deriving</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Temperature = C Float | F Float
+  deriving (Show, Eq)
+</pre>
+</div>
+
+<p>
+Haskell déduira seul comment implémenter les fonctions. Cependant dans certain
+cas comme celui-ci, les implémentation de haskell seront fausses, d'où le fait
+de les réécrire.
+</p>
+
+<p>
+Voici le code généré par haskell:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">instance Eq Temperature where
+  (==) (C n) (C m) = n == m
+  (==) (F n) (F m) = n == m
+  (==) _ _ = False
+</pre>
+</div>
+
+<p>
+Ce qui est <b>faux</b>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6f6025f" class="outline-2">
+<h2 id="org6f6025f">Les Modules</h2>
+<div class="outline-text-2" id="text-org6f6025f">
+<p>
+Les noms des modules commences par une <b>MAJUSCULES</b>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">module Doubler where
+
+doubler :: Int -&gt; Int
+doubler = (*2)
+</pre>
+</div>
+
+<p>
+Et dans un autre fichier:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">import Doubler
+
+main = do
+  print $ doubler 21
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf259d56" class="outline-2">
+<h2 id="orgf259d56">Foldings</h2>
+<div class="outline-text-2" id="text-orgf259d56">
+</div>
+<div id="outline-container-org36eb8f4" class="outline-3">
+<h3 id="org36eb8f4">Les Fonctions</h3>
+<div class="outline-text-3" id="text-org36eb8f4">
+<div class="org-src-container">
+<pre class="src src-haskell">foldr :: (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+foldl :: (b -&gt; a -&gt; b) -&gt; b -&gt; [a] -&gt; b
+</pre>
+</div>
+
+<p>
+L'élément et l'accumulateur sont échangé
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">foldr (\elem acc -&gt; &lt;term&gt;) &lt;start_acc&gt; &lt;list&gt;
+foldl (\acc elem -&gt; &lt;term&gt;) &lt;start_acc&gt; &lt;list&gt;
+</pre>
+</div>
+
+<p>
+![folding](<i>home/drfailer</i>.scripts/dmenu/notes/img/Haskell/folding.png)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org006e8db" class="outline-3">
+<h3 id="org006e8db">Exemples</h3>
+<div class="outline-text-3" id="text-org006e8db">
+<div class="org-src-container">
+<pre class="src src-haskell">sum = foldr (+) 0
+or = foldr (||) False
+and = foldr (&amp;&amp;) True
+count e = (\x acc -&gt; if e == x then acc+1 else acc) 0
+isAll e foldr (\x -&gt; (&amp;&amp;) $ e==x) True
+isAll' e foldr (\x acc -&gt; e==x &amp;&amp; acc) True
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb4db751" class="outline-4">
+<h4 id="orgb4db751">rev</h4>
+<div class="outline-text-4" id="text-orgb4db751">
+<div class="org-src-container">
+<pre class="src src-haskell">rev :: [a] -&gt; [a]
+rev = foldl (\acc x -&gt; x : acc) []
+-- rev = foldl (flip (:)) []
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb9a07c" class="outline-4">
+<h4 id="orgfb9a07c">prefixes</h4>
+<div class="outline-text-4" id="text-orgfb9a07c">
+<div class="org-src-container">
+<pre class="src src-haskell">prefixes :: [a] -&gt; [[a]]
+prefixes =
+    foldl (\acc x -&gt; [x] : (map ((:) x) acc)) []
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d9c51f" class="outline-4">
+<h4 id="org2d9c51f">lagrange</h4>
+<div class="outline-text-4" id="text-org2d9c51f">
+<div class="org-src-container">
+<pre class="src src-haskell">lagrange :: [(Float, Float)] -&gt; Float -&gt; Float
+lagrange pts x = foldr (\(xj, yj) acc -&gt; (yj * (lj xj)) + acc) 0 pts
+  where lj xj = foldr (\(xm,_) acc -&gt;
+			  if xm /= xj then
+			    ((x-xm)/(xj-xm)) * acc
+			  else
+			    acc
+		      ) 1 pts
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcda3f00" class="outline-4">
+<h4 id="orgcda3f00">foldtrie</h4>
+<div class="outline-text-4" id="text-orgcda3f00">
+<div class="org-src-container">
+<pre class="src src-haskell">data Trie a = Leaf a | Node a [Trie a]
+
+foldtrie :: (b -&gt; a -&gt; b) -&gt; b -&gt; Trie a -&gt; b
+foldtrie f acc (Leaf x) = f acc x
+foldtrie f acc (Node x xs) = foldl sub (f acc x) xs
+  where sub acc t = foldtrie f acc t
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd9d7525" class="outline-2">
+<h2 id="orgd9d7525">Entrée sortie avec IO</h2>
+<div class="outline-text-2" id="text-orgd9d7525">
+<div class="org-src-container">
+<pre class="src src-haskell">main :: IO ()
+main = do
+  putStrLn "Hello World!" -- affiche avec retourn à la ligne
+  l &lt;- gitLine -- récupère entrée clavier
+  print l
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc55ac7f" class="outline-3">
+<h3 id="orgc55ac7f">Monades</h3>
+<div class="outline-text-3" id="text-orgc55ac7f">
+<ul class="org-ul">
+<li>design pattern modélisant la notion de <b>séquence</b> et de <b>composition</b></li>
+<li>implémenté par une classe définissant les opérateurs <code>&gt;&gt;=</code> (bind), <code>&gt;&gt;</code> (then) et <code>return</code></li>
+<li>la notation <code>do</code> est un <b><b>raccourci syntaxique</b></b></li>
+<li>exemple:</li>
+</ul>
+
+
+<div class="org-src-container">
+<pre class="src src-haskell">-- notation avec do:
+main :: IO ()
+main = do
+  putStrLn "Enterez du text" -- affiche avec retourn à la ligne
+  l &lt;- gitLine -- récupère entrée clavier
+  rl &lt;- reverse l
+  print rl
+
+-- notation avec les opérateurs:
+main :: IO ()
+main = putStrLn "Enterez du text" &gt;&gt; getLine &gt;&gt;= renverser &gt;&gt;= putStrLn
+</pre>
+</div>
+
+<p>
+<b>TODO:</b> à revoir
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">renverser :: String -&gt; IO String
+
+main :: IO ()
+main = putStrLn "Enterez du text" &gt;&gt; getLine &gt;&gt;= renverser . putStrLn
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb7a9e56" class="outline-2">
+<h2 id="orgb7a9e56">Environnement</h2>
+<div class="outline-text-2" id="text-orgb7a9e56">
+<div class="org-src-container">
+<pre class="src src-haskell">import System.Environment
+
+main :: IO ()
+main = do
+  args &lt;- getArgs -- argument passés à l'exécution (argc, argv)
+</pre>
+</div>
+
+<p>
+<b>ATTENTION:</b> l'argument 0 n'est pas le nom du programme comme en C mais bien
+le premier argument donné avec la commande.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd3a175c" class="outline-2">
+<h2 id="orgd3a175c">Maybe</h2>
+<div class="outline-text-2" id="text-orgd3a175c">
+<div class="org-src-container">
+<pre class="src src-haskell">data Maybe a = Nothing | Just a
+</pre>
+</div>
+
+<p>
+Permet la gestion d'erreur, si le resultat d'une fonction est correcte, elle
+retourn <code>Just result</code> sinon elle retourn <code>Nothing</code>.
+</p>
+</div>
+
+
+<div id="outline-container-org95f0c05" class="outline-3">
+<h3 id="org95f0c05">Exemple</h3>
+<div class="outline-text-3" id="text-org95f0c05">
+<div class="org-src-container">
+<pre class="src src-haskell">import Data.Maybe
+
+safeDiv :: Intergral a =&gt; a -&gt; a -&gt; Maybe a
+safeDiv a b =
+  if b == 0 then Nothing else Just $ a `div` b
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgda65e16" class="outline-3">
+<h3 id="orgda65e16">Fonctions</h3>
+<div class="outline-text-3" id="text-orgda65e16">
+<div class="org-src-container">
+<pre class="src src-haskell">isJust :: Maybe a -&gt; Bool
+isNothing :: Maybe a -&gt; Bool
+fromJust :: Maybe a -&gt; a
+fromMaybe :: a -&gt; Maybe a -&gt; a
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org723a40b" class="outline-4">
+<h4 id="org723a40b">fromMaybe</h4>
+<div class="outline-text-4" id="text-org723a40b">
+<div class="org-src-container">
+<pre class="src src-haskell">fromMaybe 3.1 (Nothing) -- 3.1
+fromMaybe 3.1 (2.12345) -- 2.12345
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org847c90d" class="outline-2">
+<h2 id="org847c90d">Functor</h2>
+<div class="outline-text-2" id="text-org847c90d">
+<div class="org-src-container">
+<pre class="src src-haskell">class Functor f where
+  fmap :: (a -&gt; b) -&gt; f a -&gt; f b
+  (&lt;$) :: a -&gt; f b -&gt; f a
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd06d7f4" class="outline-3">
+<h3 id="orgd06d7f4">Exemple fmap</h3>
+<div class="outline-text-3" id="text-orgd06d7f4">
+<div class="org-src-container">
+<pre class="src src-haskell">map (+1) [1..4]   -- [2,3,4,5]
+fmap (+1) [1..4]  -- [2,3,4,5]
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-haskell">data Failure a = Fail | Ok a deriving (Show)
+
+instance Functor Failure where
+  fmap f (Ok x) = Ok $ f x
+  fmap (Fail) = Fail
+</pre>
+</div>
+
+<pre class="example" id="orgd616f3f">
+ghci&gt; fmap (+1) Fail
+Fail
+ghci&gt; fmap (+1) (Ok 6)
+Ok 7
+</pre>
+
+<p>
+Permet de redéfinir des fonctions qui prennent en compte le contexte. Ici,
+comme on redéfini fmap, on peut appliquer des fonctions sur notre nouveau type
+en étant sûr que les valeurs en sortie sont correcte. Dans l'exemple ci dessus,
+<b><b>(+1)</b></b> sur `Fail` retourne bien `Fail`, et `(Ok x+1)` pour `(Ok x)`.
+</p>
+
+<p>
+<b><b>NOTE:</b></b> on peut aussi utiliser la notations infixe de `fmap`:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">add1 failure = (+1) &lt;$&gt; failure
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1954849" class="outline-2">
+<h2 id="org1954849">Les Monad</h2>
+<div class="outline-text-2" id="text-org1954849">
+<div class="org-src-container">
+<pre class="src src-haskell">type Monad :: (* -&gt; *) -&gt; Constraint
+class Applicative m =&gt; Monad m where
+  (&gt;&gt;=) :: m a -&gt; (a -&gt; m b) -&gt; m b
+  (&gt;&gt;) :: m a -&gt; m b -&gt; m b
+  return :: a -&gt; m a
+  {-# MINIMAL (&gt;&gt;=) #-}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge763f7a" class="outline-3">
+<h3 id="orge763f7a">Propriétés</h3>
+<div class="outline-text-3" id="text-orge763f7a">
+</div>
+<div id="outline-container-org2d46fdf" class="outline-4">
+<h4 id="org2d46fdf">Identité gauche</h4>
+<div class="outline-text-4" id="text-org2d46fdf">
+<div class="org-src-container">
+<pre class="src src-haskell">return a &gt;&gt;= k = k a
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc74d935" class="outline-4">
+<h4 id="orgc74d935">Identité droite</h4>
+<div class="outline-text-4" id="text-orgc74d935">
+<div class="org-src-container">
+<pre class="src src-haskell">m &gt;&gt;= return = m
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc5f9bbd" class="outline-4">
+<h4 id="orgc5f9bbd">Associativité</h4>
+<div class="outline-text-4" id="text-orgc5f9bbd">
+<div class="org-src-container">
+<pre class="src src-haskell">m &gt;&gt;= (\x -&gt; k x &gt;&gt;= h) = (m &gt;&gt;= k) &gt;&gt;= h
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3dfca86" class="outline-3">
+<h3 id="org3dfca86">Exemple</h3>
+<div class="outline-text-3" id="text-org3dfca86">
+<div class="org-src-container">
+<pre class="src src-haskell">data Failure a = Fail | Ok a deriving (Show)
+
+instance Monad Failure where
+  (Ok x) &gt;&gt;= f = f x
+  (Fail) &gt;&gt;= f = Fail
+
+safeDivide :: Failure Int -&gt; Failure Int -&gt; Failure Int
+safeDivide xm ym = xm &gt;&gt;= (\x -&gt;
+		   ym &gt;&gt;= (\y -&gt;
+			if y == 0 then
+			  Fail
+			else
+			  return (x `div` y)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgedcb19e" class="outline-3">
+<h3 id="orgedcb19e">Autres Monad</h3>
+<div class="outline-text-3" id="text-orgedcb19e">
+<div class="org-src-container">
+<pre class="src src-haskell">[1,2,3] &gt;&gt;= (\x -&gt; [x,x]) -- [1,1,2,2,3,3]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org00c228c" class="outline-3">
+<h3 id="org00c228c">Raccourci</h3>
+<div class="outline-text-3" id="text-org00c228c">
+<div class="org-src-container">
+<pre class="src src-haskell">main = putStrln "Hello Haskell!" &gt;&gt;= (\_ -&gt; putStrln "Hello World!")
+main' = putStrln "Hello Haskell!" &gt;&gt; putStrln "Hello World!"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga8fe2e6" class="outline-3">
+<h3 id="orga8fe2e6">Notation `do`</h3>
+<div class="outline-text-3" id="text-orga8fe2e6">
+<div class="org-src-container">
+<pre class="src src-haskell">safeDivide :: Failure Int -&gt; Failure Int -&gt; Failure Int
+safeDivide xm ym = do
+  x &lt;- xm
+  y &lt;- ym
+  if (y == 0) then Fail
+	      else return (x `div` y)
+</pre>
+</div>
+
+<p>
+<b>IMPORTANT:</b> ici on utilise <code>&lt;-</code> et non pas <code>let</code> car on travail bien avec
+une <b><b>Monad</b></b> (ref <code>instance Monad Failure</code>).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org01b7b58" class="outline-2">
+<h2 id="org01b7b58">Les Monoids</h2>
+<div class="outline-text-2" id="text-org01b7b58">
+<div class="org-src-container">
+<pre class="src src-haskell">class (Semigroup m) =&gt; Monoid m where
+  mempty :: m
+  mappend :: m -&gt; m -&gt; m
+</pre>
+</div>
+
+<p>
+Ici la fonction <code>mappend</code> est utilisée avec l'opérateur <code>&lt;&gt;</code>
+</p>
+</div>
+
+<div id="outline-container-orgc6119c1" class="outline-3">
+<h3 id="orgc6119c1">Fonctionnement</h3>
+<div class="outline-text-3" id="text-orgc6119c1">
+<div class="org-src-container">
+<pre class="src src-haskell">[1,2,3] &lt;&gt; [1,2,3]      -- [1,2,3,1,2,3]
+mappend [1,2,3] [1,2,3] -- [1,2,3,1,2,3]
+mappend [1,2,3] mempty  -- [1,2,3]
+mappend mempty [1,2,3]  -- [1,2,3]
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org79a83d6" class="outline-2">
+<h2 id="org79a83d6">Applicative</h2>
+<div class="outline-text-2" id="text-org79a83d6">
+<div class="org-src-container">
+<pre class="src src-haskell">class (Functor f) =&gt; Applicative f where
+  pure :: a -&gt; f a
+  (&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4d2d276" class="outline-3">
+<h3 id="org4d2d276">Exemple</h3>
+<div class="outline-text-3" id="text-org4d2d276">
+<div class="org-src-container">
+<pre class="src src-haskell">data Failure a = Fail | Ok a deriving (Show)
+
+instance Applicative Failure where
+  pure = Ok
+  (Ok f) &lt;*&gt; (Ok x) = (Ok $ f x)
+  (Fail) &lt;*&gt; _ = Fail
+  _ &lt;*&gt; (Fail) = Fail
+
+
+data Person = Person String Int Int (deriving Show)
+</pre>
+</div>
+
+<pre class="example" id="org14ffc0c">
+ghci&gt; Person &lt;$&gt; (Ok "James") &lt;*&gt; (Ok 21) &lt;*&gt; (Ok 10)
+Ok (Person "James" 21 10)
+</pre>
+
+<p>
+On construit une <code>Person</code> dans le contexte de <code>Failure</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: drfailer</p>
+<p class="date">Created: 2022-09-18 Sun 16:02</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

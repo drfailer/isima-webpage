@@ -1,0 +1,1539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-18 Sun 16:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RUST</title>
+<meta name="author" content="drfailer" />
+<meta name="description" content="Note on rust" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<style type:"text/css">
+html {
+font-size: 95%;
+}
+body {
+background-color: #000000;
+color: #fff;
+font-family: "Century Gothic", helvetica, arial, sans-serif;
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+}
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+td,
+th,
+label,
+textarea,
+caption,
+details,
+figure,
+hgroup {
+font-size: 1em; /* equiv 14px */
+line-height: 1.5;
+}
+h1, .h1-like {
+font-size: 1.8571em; /* equiv 26px */
+font-weight: normal;
+line-height: 1.6154em;
+margin: 15px 0 2px;
+color: #fafafa;
+}
+h2, .h2-like {
+font-size: 1.7143em; /* equiv 24px */
+font-weight: normal;
+line-height: 1.75em;
+margin: 12px 0 2px;
+color: #FBFFC4;
+}
+h3, .h3-like {
+font-size: 1.5714em; /* equiv 22px */
+font-weight: normal;
+line-height: 1.909em;
+margin: 10px 0 2px;
+color: #CAF4FF;
+}
+h4, .h4-like {
+font-size: 1.4286em; /* equiv 20px */
+font-weight: normal;
+line-height: 1.05em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h5, .h5-like {
+font-size: 1.2857em; /* equiv 18px */
+font-weight: normal;
+line-height: 1.1667em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h6, .h6-like {
+font-size: 1.1429em; /* equiv 16px */
+font-weight: normal;
+line-height: 1.3125em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+.smaller {
+font-size: .7143em; /* equiv 10px */
+line-height: 2.1em;
+}
+.small {
+font-size: .8571em; /* equiv 12px */
+line-height: 1.75em;
+}
+.big {
+font-size: 1.1429em; /* equiv 16px */
+line-height: 1.3125em;
+}
+.bigger {
+font-size: 1.2857em; /* equiv 18px */
+line-height: 1.1667em;
+}
+.biggest {
+font-size: 1.4286em; /* equiv 20px */
+line-height: 1.05em;
+}
+html,
+body,
+textarea,
+figure,
+label {
+margin: 0;
+padding: 0;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+code,
+pre,
+samp {
+white-space: pre-wrap;
+font-family: consolas, 'DejaVu Sans Mono', courier, monospace;
+}
+code { line-height: 1em; }
+table { margin-bottom: 1.5em; }
+p:first-child,
+ul:first-child,
+ol:first-child,
+dl:first-child,
+blockquote:first-child,
+pre:first-child,
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+margin-top: 0;
+}
+li p,
+li ul,
+li ol {
+margin-top: 0;
+margin-bottom: 0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+display: block;
+}
+img, table, td, blockquote, code, pre, textarea, input, video {
+max-width: 100%;
+}
+div, textarea, table, td, th, code, pre, samp {
+word-wrap: break-word;
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+-ms-hyphens: auto;
+-o-hyphens: auto;
+hyphens: auto;
+}
+img {
+width: auto;
+height: auto;
+vertical-align: middle;
+}
+a img { border: 0; }
+body > script {display: none !important;}
+.skip-links {
+position: absolute;
+}
+.skip-links a {
+position: absolute;
+left: -9999px;
+padding: 0.5em;
+background: #000;
+color:#fff;
+text-decoration: none;
+}
+.skip-links a:focus {
+position: static;
+}
+abbr[title] {
+border-bottom: 1px dotted;
+cursor: help;
+}
+blockquote {
+margin: .75em 0 .75em 20px;
+padding: 0 0 0 10px;
+border-left: solid 2px #ddd;
+}
+q, cite {
+font-style: italic;
+}
+q cite, q q {
+font-style: normal
+}
+q {
+quotes: none;
+}
+q:before, q:after {
+content: ""; /* Nécessaire pour Safari/Chrome */
+}
+blockquote p, li p {
+margin: .5em 0;
+}
+dl {
+margin: .75em 0;
+}
+dt {
+margin: .75em 0 0 0;
+font-weight: bold;
+}
+dd {
+margin: .25em 0 .25em 32px;
+}
+table {
+margin: 0;
+border: 1px solid gray; /* Pas de bordure = "none". */
+border-collapse: collapse; /* Valeur par défaut: "separate". */
+border-spacing: 0;
+}
+table td, table th {
+padding: 4px; /* Pas de retrait autour du texte = "0". */
+border: 1px solid #ccc; /* Pas de bordure = "none". */
+vertical-align: top; /* Valeur par défaut: "middle" */
+}
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section {
+display: block;
+}
+a {
+color: #F0F0F0;
+}
+pre {
+background-color: #020202;
+overflow: auto;
+font-family: 'Monaco', monospace;
+padding: 0 1em;
+}
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">RUST</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org6698eed">Rust</a>
+<ul>
+<li><a href="#org9ac515d">Hello world</a></li>
+<li><a href="#org4735a72">Cargo</a></li>
+<li><a href="#orgd7167e7">Crates and modules</a></li>
+<li><a href="#orga60154c">use</a></li>
+<li><a href="#orgd97a53d">Print</a></li>
+<li><a href="#org79b0822">Variables</a></li>
+<li><a href="#orgb0b885d">Assertion</a></li>
+<li><a href="#orgcc33d65">Default data structures</a></li>
+<li><a href="#org357f506">Basic statements</a></li>
+<li><a href="#orgaa65249">Struct</a></li>
+<li><a href="#org1abd429"><span class="todo TODO">TODO</span> Derive</a></li>
+<li><a href="#org6d6a702">Enums</a></li>
+<li><a href="#orgf0a5aff">argc &amp; argv</a></li>
+<li><a href="#orgfad9c90">Files</a></li>
+<li><a href="#orgd35a193"><span class="todo TODO">TODO</span> Macros</a></li>
+</ul>
+</li>
+<li><a href="#org3e6d39d">SDL2</a>
+<ul>
+<li><a href="#orgcbf9699">Cargo setup</a></li>
+<li><a href="#orgf134d88">Print sdl2 version</a></li>
+<li><a href="#org597f6a6">Display a window</a></li>
+<li><a href="#org018a9eb">Using the mouse</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org6698eed" class="outline-2">
+<h2 id="org6698eed">Rust</h2>
+<div class="outline-text-2" id="text-org6698eed">
+</div>
+<div id="outline-container-org9ac515d" class="outline-3">
+<h3 id="org9ac515d">Hello world</h3>
+<div class="outline-text-3" id="text-org9ac515d">
+<div class="org-src-container">
+<pre class="src src-rust">fn main() {
+    println!("Hello, World!");
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4735a72" class="outline-3">
+<h3 id="org4735a72">Cargo</h3>
+<div class="outline-text-3" id="text-org4735a72">
+<ul class="org-ul">
+<li><code>cargo new proj</code>: create a new project in the directory <code>proj</code></li>
+<li><code>cargo new --lib proj</code>: create a new project in the directory <code>proj</code> with a lib crate</li>
+<li><code>cargo init</code>: create a project in the current directory</li>
+<li><code>cargo run</code>: compile and run the program (executable file in <code>target/debug/</code>)</li>
+<li><code>cargo build</code>: build</li>
+<li><code>cargo build --release</code>: build for production (no debug flags + optimisation)</li>
+<li><code>cargo add module</code>: add <code>module</code> to dependancies</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd7167e7" class="outline-3">
+<h3 id="orgd7167e7">Crates and modules</h3>
+<div class="outline-text-3" id="text-orgd7167e7">
+</div>
+<div id="outline-container-org2e82792" class="outline-4">
+<h4 id="org2e82792">Crate</h4>
+<div class="outline-text-4" id="text-org2e82792">
+<p>
+A package contains <b>creates</b> which can be <b>binary crates</b> or <b>library creates</b>. A
+crate contains <b>modules</b> and <b>modules</b> contains <b>functions</b> or <b>sub modules</b>. <b>Modules</b>
+are not related to files and one file can contains multiple modules and sub
+modules which are declared using the <code>mod</code> keyword. A sub module as to be public
+to be accessed by another modules.
+</p>
+
+<p>
+Crate are stored at the root of the directory (inside <code>src/</code>).
+</p>
+</div>
+
+<div id="outline-container-orgd92cc42" class="outline-5">
+<h5 id="orgd92cc42">Modules and sub modules</h5>
+<div class="outline-text-5" id="text-orgd92cc42">
+<div class="org-src-container">
+<pre class="src src-rust" id="org004dec5">mod my_module {
+    mod sub_mod1 {
+	// TODO
+    }
+    mod sub_mod2 {
+	// TODO
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org392bfde" class="outline-5">
+<h5 id="org392bfde">Crate</h5>
+<div class="outline-text-5" id="text-org392bfde">
+<div class="org-src-container">
+<pre class="src src-rust" id="orgbe6b783">mod my_module {
+    // code hidden by default
+    pub mod test { // has to be public
+	pub fn some_fn() {}
+    }
+}
+
+pub fn out_fn() {
+    // absolute path
+    crate::my_module::test::some_fn();
+    // relative path
+    my_module::test::some_fn();
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9d3d664" class="outline-5">
+<h5 id="org9d3d664">Super</h5>
+<div class="outline-text-5" id="text-org9d3d664">
+<p>
+The <code>super</code> keyword reference to the functions that are outside modules in the
+file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="org27dedaf">fn some_fn() {
+    println!("Hello, World");
+}
+
+mod my_module {
+    fn hello() {
+	println!("Hello");
+    }
+
+    fn mod_fn() {
+	hello();
+	super::some_fn();
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc48a97e" class="outline-4">
+<h4 id="orgc48a97e">Modules</h4>
+<div class="outline-text-4" id="text-orgc48a97e">
+<ul class="org-ul">
+<li>file <code>test.rs</code> with public function in it (<code>pub fn</code>)</li>
+<li><code>mod test</code> at the top of a file to call the module</li>
+<li><code>test::fun</code> to call <code>fun</code> from the module <code>test</code></li>
+</ul>
+</div>
+
+<div id="outline-container-orge080c7f" class="outline-5">
+<h5 id="orge080c7f">Exemple 1</h5>
+<div class="outline-text-5" id="text-orge080c7f">
+<div class="org-src-container">
+<pre class="src src-rust" id="org51100bb">pub fn hello() {
+    println!("Hello, World!");
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="org8f3b6a1">mod test;
+
+fn main() {
+    test::hello();
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd9f7cb1" class="outline-5">
+<h5 id="orgd9f7cb1">Exemple 2</h5>
+<div class="outline-text-5" id="text-orgd9f7cb1">
+<p>
+Exemple using multiple directories.
+</p>
+
+<pre class="example" id="orgd892ce7">
+.
+├── folder
+│   ├── greeter.rs
+│   └── mod.rs
+├── greetings.rs
+└── main.rs
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="orgee33bf3">pub fn greet() {
+    println!("Greetings");
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="orgc48fa5d">pub mod greeter;
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="orge2b0f4d">pub fn hello() {
+    println!("Hello, World");
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-rust" id="orgc14fe73">mod greetings;
+mod folder;
+
+fn main() {
+    greetings::hello();
+    folder::greeter::greet();
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga60154c" class="outline-3">
+<h3 id="orga60154c">use</h3>
+<div class="outline-text-3" id="text-orga60154c">
+<div class="org-src-container">
+<pre class="src src-rust">use std::mem;
+
+fn main() {
+    let tab: [i32; 3] = [1, 2, 3];
+    println!("meme size: {}", mem::size_of_val(&amp;tab));
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd97a53d" class="outline-3">
+<h3 id="orgd97a53d">Print</h3>
+<div class="outline-text-3" id="text-orgd97a53d">
+</div>
+<div id="outline-container-org52f1a5e" class="outline-4">
+<h4 id="org52f1a5e">Basic print</h4>
+<div class="outline-text-4" id="text-org52f1a5e">
+<div class="org-src-container">
+<pre class="src src-rust">println!("Hello, World!");
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5eda20d" class="outline-4">
+<h4 id="org5eda20d">Print variables</h4>
+<div class="outline-text-4" id="text-org5eda20d">
+<div class="org-src-container">
+<pre class="src src-rust">let a = 1;
+println!("a = {} and 2 = {}", a, 2);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge04a202" class="outline-4">
+<h4 id="orge04a202">Positional arguments</h4>
+<div class="outline-text-4" id="text-orge04a202">
+<div class="org-src-container">
+<pre class="src src-rust">println!("{0} is {1} and {0} likes to {2}!", "drfailer", "happy", "code");
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe99524" class="outline-4">
+<h4 id="orgbe99524">Named arguments</h4>
+<div class="outline-text-4" id="text-orgbe99524">
+<div class="org-src-container">
+<pre class="src src-rust">println!("{name} likes to play {activity}", name = "drfailer", activity = "netrunner");
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b86fce" class="outline-4">
+<h4 id="org1b86fce">Placeholder traits</h4>
+<div class="outline-text-4" id="text-org1b86fce">
+<div class="org-src-container">
+<pre class="src src-rust">println!("Binary: {:b}, Hex: {:x}, Octoal: {:o}", 10, 10, 10, 10);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c366a2" class="outline-4">
+<h4 id="org5c366a2">Debug (very usefull)</h4>
+<div class="outline-text-4" id="text-org5c366a2">
+<div class="org-src-container">
+<pre class="src src-rust">println!("print a tuple for instance: {:?}", (10, true, "hello"));
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org79b0822" class="outline-3">
+<h3 id="org79b0822">Variables</h3>
+<div class="outline-text-3" id="text-org79b0822">
+</div>
+<div id="outline-container-orgad243f9" class="outline-4">
+<h4 id="orgad243f9">Basic</h4>
+<div class="outline-text-4" id="text-orgad243f9">
+<div class="org-src-container">
+<pre class="src src-rust">let name = "drfailer"; // immutable by default
+
+// mutable variable
+let mut age = 4;
+age = 5; // can be modified
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2258203" class="outline-4">
+<h4 id="org2258203">Constants</h4>
+<div class="outline-text-4" id="text-org2258203">
+<ul class="org-ul">
+<li>A contant must be name in upercase.</li>
+<li>We must specify the type of the variable when creating a constant.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-rust">// Constant
+const ID: i32 = 42; // must specify the type and be upercase
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7360141" class="outline-4">
+<h4 id="org7360141">Tuples</h4>
+<div class="outline-text-4" id="text-org7360141">
+<p>
+Tuples can be <i>"unwrap"</i> so we can use them to declare and intialise multiple
+variables in one time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">// Tuple
+let (my_name, my_age) = ("drfailer", 42);
+println!("name: {}, age = {}", my_name, my_age);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga60087a" class="outline-4">
+<h4 id="orga60087a">Data types</h4>
+<div class="outline-text-4" id="text-orga60087a">
+<p>
+For many types, the compiler is able to atomatically detect the type of the
+variable on initialisation. For instance <code>let i = 0</code>, <code>i</code> will be an <code>i32</code> by default.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">// int
+let y: i64 = 1_000_000_000_000;
+
+// double
+let f: f64 = 2.5;
+
+// bool
+let am_i_happy: bool = true;
+let is_greater: bool = 10 &lt; 5;
+
+// char
+let a: char = 'a';
+let smile: char = '\u{1F600}'
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org20775c2" class="outline-4">
+<h4 id="org20775c2">Strings</h4>
+<div class="outline-text-4" id="text-org20775c2">
+<p>
+There is two types of strings, a basic immutable string and a more complex data
+structure that is growable and can be modified.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">let hello: String = "hello"; // basic
+
+let mut superString = String::from("Hello"); // don't forget the `mut`
+println!("Length = {}", superString.len());
+
+// append char
+superString.push('W');
+// append string
+superString.push_str("orld!");
+
+// Capacity in bytes
+println!("Capacity: {}", superString.capacity());
+println!("Is empty: {}", superString.is_empty());
+
+// contains
+println!("Contains 'World': {}", superString.contains("World"));
+
+// Replace
+println!("World -&gt; There: {}", hello.replace("World", "There"));
+
+// Loop through string by whitespace
+for word in hello.split_whitespace() {
+    println!("{}", word);
+}
+
+// Create string with capacity
+
+let mut s = String::with_capacity(10);
+s.push('a');
+s.push('b');
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc046aaf" class="outline-4">
+<h4 id="orgc046aaf">Pointers</h4>
+<div class="outline-text-4" id="text-orgc046aaf">
+<div class="org-src-container">
+<pre class="src src-rust">/// basic
+let my_num: i32 = 10;
+let my_num_ptr: *const i32 = &amp;my_num;
+let mut my_speed: i32 = 88;
+let my_speed_ptr: *mut i32 = &amp;mut my_speed;
+
+/// arrays
+let arr1 = [1, 2, 3];
+let arr2 = arr1;
+
+/// Non primitives
+// We can't such a thing with non primitive values
+let vec1 = vec![1, 2, 3];
+let vec2 = &amp;vec1; // we have to use the reference
+// vec1 doen't exist anymore
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org27d0e55" class="outline-5">
+<h5 id="org27d0e55">Threw functions</h5>
+<div class="outline-text-5" id="text-org27d0e55">
+<div class="org-src-container">
+<pre class="src src-rust">fn modify(a: &amp;mut i32) {
+    *a = 8;
+}
+
+fn main() {
+    let mut var = 10;
+    println!("var = {}", var); // 10
+    modify(&amp;mut var);
+    println!("var = {}", var); // 8
+    var = 9;
+    println!("var = {}", var); // 9
+    let mut b = &amp;mut var;
+    modify(b);
+    println!("var = {}", var); // 8
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0b885d" class="outline-3">
+<h3 id="orgb0b885d">Assertion</h3>
+<div class="outline-text-3" id="text-orgb0b885d">
+<p>
+Assertion returns error on failure. If there is no failure, nothing happend.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">assert_eq!(2, my_string.len());
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc33d65" class="outline-3">
+<h3 id="orgcc33d65">Default data structures</h3>
+<div class="outline-text-3" id="text-orgcc33d65">
+</div>
+<div id="outline-container-orgc855aa8" class="outline-4">
+<h4 id="orgc855aa8">Tuples</h4>
+<div class="outline-text-4" id="text-orgc855aa8">
+<p>
+A tuple can contain a maximum of <b>12</b> elements.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">let person: (&amp;str, &amp;str, i8) = ("dr", "failer", 42)
+    println!("name: {}, surname: {}, age: {}", person.0, person.1, person.2);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga32d1c1" class="outline-4">
+<h4 id="orga32d1c1">Arrays</h4>
+<div class="outline-text-4" id="text-orga32d1c1">
+<div class="org-src-container">
+<pre class="src src-rust">// array of i32 with a length of 5
+let mut numbers: [i32; 5] = [1, 2, 3 , 4, 5];
+println!("{}", numbers[0]);
+numbers[3] = 10;
+
+// slice
+let slice1: &amp;[i32] = &amp;numbers; // take all
+let slice2: &amp;[i32] = &amp;number[1..3]; // get 1 and 2
+
+println!("length = {}", numbers.len());
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcb38e7f" class="outline-4">
+<h4 id="orgcb38e7f">Vectors</h4>
+<div class="outline-text-4" id="text-orgcb38e7f">
+<p>
+Vectors are resizeable arrays.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">// array of i32 with a length of 5
+let mut numbers: Vec&lt;i32&gt; = vec![1, 2, 3 , 4, 5];
+println!("{}", numbers[0]);
+numbers[3] = 10;
+
+// slice
+let slice1: &amp;[i32] = &amp;numbers; // take all
+let slice2: &amp;[i32] = &amp;number[1..3]; // get 1 and 2
+
+println!("length = {}", numbers.len());
+
+// Add on to vector
+numbers.push(5);
+
+// Remove last
+numbers.pop();
+
+// Loop through vector values
+for x in numbers.iter() {
+    println!("x: {}", x);
+}
+
+// Loop mut
+for x in numbers.iter_mut() {
+    *x = 2; // x is a pointer now
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org357f506" class="outline-3">
+<h3 id="org357f506">Basic statements</h3>
+<div class="outline-text-3" id="text-org357f506">
+</div>
+<div id="outline-container-orgdf74d31" class="outline-4">
+<h4 id="orgdf74d31">Conditionals</h4>
+<div class="outline-text-4" id="text-orgdf74d31">
+<div class="org-src-container">
+<pre class="src src-rust">let age = 18;
+let hello = true;
+
+if age &gt;= 21 || hello {
+    println!("fizz");
+} else {
+    println!("buzz");
+}
+
+// No ternary but shorthand can be used
+let cond = if age == 20 { "fizz" } else { "buzz" };
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b18742" class="outline-4">
+<h4 id="org3b18742">Loops</h4>
+<div class="outline-text-4" id="text-org3b18742">
+<div class="org-src-container">
+<pre class="src src-rust">let mut count = 0;
+
+// infinit loop
+loop {
+    count += 1;
+    println!("{}", count);
+
+    if count == 100 {
+	break;
+    }
+}
+
+// labeled loops
+'running loop {
+    for i in numbers {
+	if i == 4 {
+	    break 'runngin; // we can break the outer loop
+	}
+    }
+}
+
+// while
+while count &lt; 100 {
+    count += 1;
+    println!("{}", count);
+}
+
+// for range
+for i in 0..20 {
+    println!("{}", i);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7553b6a" class="outline-4">
+<h4 id="org7553b6a">Functions</h4>
+<div class="outline-text-4" id="text-org7553b6a">
+<div class="org-src-container">
+<pre class="src src-rust">fn main() {
+    greeting("Hello", "drfailer");
+}
+
+fn greeting(greet: &amp;str, name: &amp;str) {
+    println!("{} {}, nice to meet you!", greet, name);
+}
+
+fn add(n1: i32, n2: i32) -&gt; i32 {
+    n1 + n2 // no `;` means return
+}
+
+fn add_second(n1: i32, n2: i32) -&gt; i32 {
+    return n1 + n2; // we can use return as well
+}
+
+// Closure
+let external_var: i32 = 5;
+let add_nums = |n1: i32, n2: i32| n1 + n2 + external_var;
+println!("{}", add_nums(3, 3));
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaa65249" class="outline-3">
+<h3 id="orgaa65249">Struct</h3>
+<div class="outline-text-3" id="text-orgaa65249">
+</div>
+<div id="outline-container-orgf7c3a0e" class="outline-4">
+<h4 id="orgf7c3a0e">Basic structure</h4>
+<div class="outline-text-4" id="text-orgf7c3a0e">
+<div class="org-src-container">
+<pre class="src src-rust">// Basic struct
+struct Color {
+    red: u8,
+    green: u8,
+    blue: u8
+}
+
+// Tuple struct
+struct Color2(u8, u8, u8);
+
+fn main() {
+    let mut c = Color {
+	red: 255,
+	green: 255,
+	blue: 255
+    };
+
+    println!("c: {} {} {}", c.red, c.green, c.blue);
+
+    c.blue = 0;
+
+    let mut c2 = Color2(255, 255, 255);
+    println!("c: {} {} {}", c2.0, c2.1, c2.2);
+}
+</pre>
+</div>
+
+<p>
+Using <code>..</code> when initialising a variable from a struct means that the rest of the
+field will be initialised automatically. This can be used in a <code>match</code> statement
+to indicate that we don't care about the rest of the fields.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf56ebfd" class="outline-4">
+<h4 id="orgf56ebfd">Classes struct</h4>
+<div class="outline-text-4" id="text-orgf56ebfd">
+<div class="org-src-container">
+<pre class="src src-rust">struct Person {
+    first_name: String,
+    last_name: String,
+    age: i32
+}
+
+impl Person {
+    // Construct
+    fn new(first: &amp;str, last: &amp;str, age: i32) -&gt; Person {
+	Person {
+	    first_name: first.to_string(),
+	    last_name: last.to_string(),
+	    age: age
+	}
+    }
+
+    // Get the full name
+    fn full_name(&amp;self) -&gt; String {
+	format!("{} {}", self.first_name, self.last_name) // return the full name
+    }
+
+    // Setter
+    fn set_last_name(&amp;mut self, last: &amp;str) {
+	self.last_name = last.to_string();
+    }
+
+    // Name to tuple
+    // takes `self` and not `&amp;self` to destroy the object after the exection
+    fn to_tuple(self) -&gt; (String, String) {
+	(self.first_name, self.last_name)
+    }
+}
+
+fn main() {
+    let mut p = Person::new("dr", "failer", 42);
+    println!("Person {}", p.full_name());
+    p.set_last_name("who");
+    println!("Person to tuple {:?}", p.to_tuple());
+}
+</pre>
+</div>
+
+<p>
+We use the <code>.</code> notation to call methodes that use <code>&amp;self</code>, otherwise we use <code>::</code>.
+</p>
+
+<p>
+On the previous example, the methode <code>to_tuple</code> takes <code>self</code> instead of <code>&amp;self</code> which
+means that it takes ownership on self, so the object is <b>destroyed</b> after calling
+the methode.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1abd429" class="outline-3">
+<h3 id="org1abd429"><span class="todo TODO">TODO</span> Derive</h3>
+</div>
+<div id="outline-container-org6d6a702" class="outline-3">
+<h3 id="org6d6a702">Enums</h3>
+<div class="outline-text-3" id="text-org6d6a702">
+<div class="org-src-container">
+<pre class="src src-rust">enum Movement {
+    // Variants
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+fn move_avatar(m: Movement) {
+    // Action depending on movement
+    match m {
+	Movement::Up =&gt; println!("move UP"),
+	Movement::Down =&gt; println!("move DOWN"),
+	Movement::Left =&gt; println!("move LEFT"),
+	Movement::Right =&gt; println!("move RIGHT")
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf0a5aff" class="outline-3">
+<h3 id="orgf0a5aff">argc &amp; argv</h3>
+<div class="outline-text-3" id="text-orgf0a5aff">
+<div class="org-src-container">
+<pre class="src src-rust">use std::env;
+
+fn main() {
+    let args = Vec&lt;String&gt; = env::args().collect();
+    let command = args[1].clone();
+
+    if command == "--help" {
+	println!("RTFM and go away!!!");
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfad9c90" class="outline-3">
+<h3 id="orgfad9c90">Files</h3>
+<div class="outline-text-3" id="text-orgfad9c90">
+</div>
+<div id="outline-container-org2e3b441" class="outline-4">
+<h4 id="org2e3b441">Read file</h4>
+<div class="outline-text-4" id="text-org2e3b441">
+<div class="org-src-container">
+<pre class="src src-rust">use std::fs::File;
+use sdl::io::prelude::*;
+
+fn main() {
+    let mut file = File::open("test.txt").expect("Can't open the file!");
+    let mut content = String::new();
+
+    file.read_to_string(&amp;mut content).expect("Can't read the file!");
+
+    println!("File content:\n\n{}", content);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org42dad0b" class="outline-4">
+<h4 id="org42dad0b">Write file</h4>
+<div class="outline-text-4" id="text-org42dad0b">
+<div class="org-src-container">
+<pre class="src src-rust">use std::fs::File;
+use std::io::prelude::*;
+
+fn main() {
+    let mut file = File::create("output.txt").expect("Can't create file.");
+    file.write_all(b"Welcome Home!").expect("Can't write to the file.");
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd35a193" class="outline-3">
+<h3 id="orgd35a193"><span class="todo TODO">TODO</span> Macros</h3>
+</div>
+</div>
+<div id="outline-container-org3e6d39d" class="outline-2">
+<h2 id="org3e6d39d">SDL2</h2>
+<div class="outline-text-2" id="text-org3e6d39d">
+<p>
+<a href="https://docs.rs/sdl2/latest/sdl2/">Link</a> to the documentation.
+</p>
+</div>
+
+<div id="outline-container-orgcbf9699" class="outline-3">
+<h3 id="orgcbf9699">Cargo setup</h3>
+<div class="outline-text-3" id="text-orgcbf9699">
+<p>
+<b>NOTE:</b> we can use <code>cargo search regex</code> to search for an available package.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml">[package]
+name = "test-sdl"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sdl2 = "0.35.2"               # SDL2 bindings for Rust
+sdl2_ttf = "0.25.1"           # SDL2_ttf bindings for Rust
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf134d88" class="outline-3">
+<h3 id="orgf134d88">Print sdl2 version</h3>
+<div class="outline-text-3" id="text-orgf134d88">
+<div class="org-src-container">
+<pre class="src src-rust">extern crate sdl2;
+
+// not required as import by default in the sdl
+// use sdl2::version::Version;
+
+pub fn main() {
+    println!("sdl version: {:?}", sdl2::version::version());
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org597f6a6" class="outline-3">
+<h3 id="org597f6a6">Display a window</h3>
+<div class="outline-text-3" id="text-org597f6a6">
+<p>
+The following snippets just display a black window which can ba closed when
+hitting <code>q</code> or <code>escape</code> (or on quit event).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">extern crate sdl2;
+
+use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
+use sdl2::pixels::Color;
+use std::time::Duration;
+
+// or: fn event_handler(event: Event) -&gt; bool
+fn event_handler(event: Event, run: &amp;mut bool) {
+    match event {
+	Event::Quit { .. }
+	| Event::KeyDown {
+	    keycode: Some(Keycode::Escape),
+	    ..
+	}
+	| Event::KeyDown {
+	    keycode: Some(Keycode::Q),
+	    ..
+	} =&gt; {
+	    *run = false
+	},
+	_ =&gt; {} // otherwhise do nothing
+    }
+}
+
+pub fn main() {
+    let mut run: bool = true;
+    let sdl_context = sdl2::init().unwrap(); // sdl if (SDL_Init(...) { ... })
+    let video_subsystem = sdl_context.video().unwrap(); // sdl init video + error handling
+    let window = video_subsystem // SDL_Window
+	.window("My happy window", 500, 500)
+	.position_centered()
+	.build()
+	.unwrap();
+    let mut canvas = window.into_canvas().build().unwrap(); // SDL_Renderer
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
+    canvas.clear();
+    canvas.present();
+    let mut event_pump = sdl_context.event_pump().unwrap(); // SDL_Event
+
+    while run {
+
+	// draw stuff
+
+	for event in event_pump.poll_iter() { // while (SDL_GetEvent(&amp;event)) { ... }
+	    // run = event_handler(event);
+	    event_handler(event, &amp;mut run);
+	}
+
+	// rest of the loop
+
+	canvas.present();
+	::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org018a9eb" class="outline-3">
+<h3 id="org018a9eb">Using the mouse</h3>
+<div class="outline-text-3" id="text-org018a9eb">
+</div>
+<div id="outline-container-org8360fd6" class="outline-4">
+<h4 id="org8360fd6">libraries</h4>
+<div class="outline-text-4" id="text-org8360fd6">
+<div class="org-src-container">
+<pre class="src src-rust">extern crate sdl2;
+
+use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
+use sdl2::pixels::Color;
+use sdl2::rect::Rect;
+use sdl2::video::Window;
+use std::time::Duration;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org96177d5" class="outline-4">
+<h4 id="org96177d5">Event handler</h4>
+<div class="outline-text-4" id="text-org96177d5">
+<p>
+Just used to quit the app whene hiting <code>escape</code> or <code>q</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">// or: fn event_handler(event: Event) -&gt; bool
+fn event_handler(event: Event, run: &amp;mut bool) {
+    match event {
+	Event::Quit { .. }
+	| Event::KeyDown {
+	    keycode: Some(Keycode::Escape),
+	    ..
+	}
+	| Event::KeyDown {
+	    keycode: Some(Keycode::Q),
+	    ..
+	} =&gt; *run = false,
+	_ =&gt; {} // otherwhise do nothing
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c98aba" class="outline-4">
+<h4 id="org1c98aba">Draw</h4>
+<div class="outline-text-4" id="text-org1c98aba">
+<p>
+Draw a square on the window, the user will click on it to quit the app.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-rust">fn draw(canvas: &amp;mut sdl2::render::Canvas&lt;Window&gt;) {
+    (*canvas).set_draw_color(Color::RGB(255, 255, 255));
+    _ = canvas.fill_rect(Rect::new(200, 200, 20, 20)).unwrap();
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c3b996" class="outline-4">
+<h4 id="org0c3b996">Main</h4>
+<div class="outline-text-4" id="text-org0c3b996">
+<div class="org-src-container">
+<pre class="src src-rust">pub fn main() {
+    let mut run: bool = true;
+    let sdl_context = sdl2::init().unwrap(); // sdl if (SDL_Init(...) { ... })
+    let video_subsystem = sdl_context.video().unwrap(); // sdl init video + error handling
+
+    let window = video_subsystem // SDL_Window
+	.window("My happy window", 500, 500)
+	.position_centered()
+	.build()
+	.unwrap();
+
+    let mut canvas = window.into_canvas().build().unwrap(); // SDL_Renderer
+
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
+    canvas.clear();
+    canvas.present();
+
+    let mut event_pump = sdl_context.event_pump().unwrap(); // SDL_Event
+
+    while run {
+	// draw stuff
+	draw(&amp;mut canvas); // can't give a copy of the canvas
+
+	// manage events
+	for event in event_pump.poll_iter() {
+	    event_handler(event, &amp;mut run);
+	}
+
+	// get a mouse state and test
+	let mstate = event_pump.mouse_state();
+	if mstate.left() {
+	    let mx = mstate.x();
+	    let my = mstate.y();
+	    println!("mx: {}, my: {}", mx, my);
+	    if mx &gt; 200 &amp;&amp; mx &lt; 220 &amp;&amp; my &gt; 200 &amp;&amp; my &lt; 220 {
+		run = false;
+	    }
+	}
+	// refresh the screen (not necessary here but this is where it should be)
+	canvas.present();
+	std::thread::sleep(Duration::from_millis(100));
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: drfailer</p>
+<p class="date">Created: 2022-09-18 Sun 16:00</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

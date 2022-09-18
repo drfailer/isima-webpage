@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-18 Sun 16:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linux</title>
+<meta name="author" content="drfailer" />
+<meta name="description" content="Some notes on linux." />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<style type:"text/css">
+html {
+font-size: 95%;
+}
+body {
+background-color: #000000;
+color: #fff;
+font-family: "Century Gothic", helvetica, arial, sans-serif;
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+}
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+td,
+th,
+label,
+textarea,
+caption,
+details,
+figure,
+hgroup {
+font-size: 1em; /* equiv 14px */
+line-height: 1.5;
+}
+h1, .h1-like {
+font-size: 1.8571em; /* equiv 26px */
+font-weight: normal;
+line-height: 1.6154em;
+margin: 15px 0 2px;
+color: #fafafa;
+}
+h2, .h2-like {
+font-size: 1.7143em; /* equiv 24px */
+font-weight: normal;
+line-height: 1.75em;
+margin: 12px 0 2px;
+color: #FBFFC4;
+}
+h3, .h3-like {
+font-size: 1.5714em; /* equiv 22px */
+font-weight: normal;
+line-height: 1.909em;
+margin: 10px 0 2px;
+color: #CAF4FF;
+}
+h4, .h4-like {
+font-size: 1.4286em; /* equiv 20px */
+font-weight: normal;
+line-height: 1.05em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h5, .h5-like {
+font-size: 1.2857em; /* equiv 18px */
+font-weight: normal;
+line-height: 1.1667em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+h6, .h6-like {
+font-size: 1.1429em; /* equiv 16px */
+font-weight: normal;
+line-height: 1.3125em;
+margin: 8px 0 2px;
+color: #CAFFEF;
+}
+.smaller {
+font-size: .7143em; /* equiv 10px */
+line-height: 2.1em;
+}
+.small {
+font-size: .8571em; /* equiv 12px */
+line-height: 1.75em;
+}
+.big {
+font-size: 1.1429em; /* equiv 16px */
+line-height: 1.3125em;
+}
+.bigger {
+font-size: 1.2857em; /* equiv 18px */
+line-height: 1.1667em;
+}
+.biggest {
+font-size: 1.4286em; /* equiv 20px */
+line-height: 1.05em;
+}
+html,
+body,
+textarea,
+figure,
+label {
+margin: 0;
+padding: 0;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+code,
+pre,
+samp {
+white-space: pre-wrap;
+font-family: consolas, 'DejaVu Sans Mono', courier, monospace;
+}
+code { line-height: 1em; }
+table { margin-bottom: 1.5em; }
+p:first-child,
+ul:first-child,
+ol:first-child,
+dl:first-child,
+blockquote:first-child,
+pre:first-child,
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+margin-top: 0;
+}
+li p,
+li ul,
+li ol {
+margin-top: 0;
+margin-bottom: 0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+display: block;
+}
+img, table, td, blockquote, code, pre, textarea, input, video {
+max-width: 100%;
+}
+div, textarea, table, td, th, code, pre, samp {
+word-wrap: break-word;
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+-ms-hyphens: auto;
+-o-hyphens: auto;
+hyphens: auto;
+}
+img {
+width: auto;
+height: auto;
+vertical-align: middle;
+}
+a img { border: 0; }
+body > script {display: none !important;}
+.skip-links {
+position: absolute;
+}
+.skip-links a {
+position: absolute;
+left: -9999px;
+padding: 0.5em;
+background: #000;
+color:#fff;
+text-decoration: none;
+}
+.skip-links a:focus {
+position: static;
+}
+abbr[title] {
+border-bottom: 1px dotted;
+cursor: help;
+}
+blockquote {
+margin: .75em 0 .75em 20px;
+padding: 0 0 0 10px;
+border-left: solid 2px #ddd;
+}
+q, cite {
+font-style: italic;
+}
+q cite, q q {
+font-style: normal
+}
+q {
+quotes: none;
+}
+q:before, q:after {
+content: ""; /* Nécessaire pour Safari/Chrome */
+}
+blockquote p, li p {
+margin: .5em 0;
+}
+dl {
+margin: .75em 0;
+}
+dt {
+margin: .75em 0 0 0;
+font-weight: bold;
+}
+dd {
+margin: .25em 0 .25em 32px;
+}
+table {
+margin: 0;
+border: 1px solid gray; /* Pas de bordure = "none". */
+border-collapse: collapse; /* Valeur par défaut: "separate". */
+border-spacing: 0;
+}
+table td, table th {
+padding: 4px; /* Pas de retrait autour du texte = "0". */
+border: 1px solid #ccc; /* Pas de bordure = "none". */
+vertical-align: top; /* Valeur par défaut: "middle" */
+}
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section {
+display: block;
+}
+a {
+color: #F0F0F0;
+}
+pre {
+background-color: #020202;
+overflow: auto;
+font-family: 'Monaco', monospace;
+padding: 0 1em;
+}
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Linux</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgde8e89c">Shell scripting</a>
+<ul>
+<li><a href="#orgf349515">Variables</a></li>
+<li><a href="#orgc7f76cf">Conditions</a></li>
+<li><a href="#org154ce95">Loops</a></li>
+<li><a href="#org2b80c73">Functions</a></li>
+<li><a href="#org7188495">Some usefull command</a></li>
+</ul>
+</li>
+<li><a href="#org816fc6b">tmux</a></li>
+<li><a href="#orgef32425">Arch</a>
+<ul>
+<li><a href="#orgce992e3">Pacman</a></li>
+<li><a href="#org5158195">Arch Maintenance</a></li>
+<li><a href="#org2e410b0">Mirror phone</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgde8e89c" class="outline-2">
+<h2 id="orgde8e89c">Shell scripting</h2>
+<div class="outline-text-2" id="text-orgde8e89c">
+</div>
+<div id="outline-container-orgf349515" class="outline-3">
+<h3 id="orgf349515">Variables</h3>
+<div class="outline-text-3" id="text-orgf349515">
+</div>
+<div id="outline-container-orgf5dd6bb" class="outline-4">
+<h4 id="orgf5dd6bb">Basic variables</h4>
+<div class="outline-text-4" id="text-orgf5dd6bb">
+<div class="org-src-container">
+<pre class="src src-sh">a="something"
+b=$(ps aux)
+lit i = 0 # int
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b83714" class="outline-4">
+<h4 id="org5b83714">Declare an array</h4>
+<div class="outline-text-4" id="text-org5b83714">
+<p>
+Here is an array of strings:
+</p>
+
+<p>
+#+end<sub>src</sub> sh
+declare -a array=("hello"
+                  "world"
+                  )
+#+end<sub>src</sub>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7f76cf" class="outline-3">
+<h3 id="orgc7f76cf">Conditions</h3>
+<div class="outline-text-3" id="text-orgc7f76cf">
+</div>
+<div id="outline-container-orge795aec" class="outline-4">
+<h4 id="orge795aec">Basic Conditions</h4>
+<div class="outline-text-4" id="text-orge795aec">
+<div class="org-src-container">
+<pre class="src src-sh">if [[ $a == 0 ]]; then
+echo "a is null"
+fi
+
+# or
+if [ $a -eq 0 ]; then
+echo "a is null"
+fi
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ac354b" class="outline-4">
+<h4 id="org9ac354b">Check if file exists</h4>
+<div class="outline-text-4" id="text-org9ac354b">
+<div class="org-src-container">
+<pre class="src src-sh">if [ -f /path/to/file ]; then
+    echo "the file exists!"
+fi
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c9fc70" class="outline-4">
+<h4 id="org1c9fc70">Les Strings</h4>
+<div class="outline-text-4" id="text-org1c9fc70">
+<div class="org-src-container">
+<pre class="src src-sh">if [[ $1 == "Hello" ]]; then
+    echo "World!"
+fi
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org154ce95" class="outline-3">
+<h3 id="org154ce95">Loops</h3>
+<div class="outline-text-3" id="text-org154ce95">
+</div>
+<div id="outline-container-orgc4f524a" class="outline-4">
+<h4 id="orgc4f524a">Basic</h4>
+<div class="outline-text-4" id="text-orgc4f524a">
+<div class="org-src-container">
+<pre class="src src-sh">for i in /etc/rc.*; do
+    echo $i
+done
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgece9287" class="outline-4">
+<h4 id="orgece9287">C-like</h4>
+<div class="outline-text-4" id="text-orgece9287">
+<div class="org-src-container">
+<pre class="src src-sh">for ((i = 0 ; i &lt; 100 ; i++)); do
+    echo $i
+done
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a8c983" class="outline-4">
+<h4 id="org5a8c983">Ranges</h4>
+<div class="outline-text-4" id="text-org5a8c983">
+<div class="org-src-container">
+<pre class="src src-sh">for i in {1..5}; do
+    echo "Welcome $i"
+done
+
+# step size:
+for i in {5..50..5}; do
+    echo "Welcome $i"
+done
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6e473cb" class="outline-4">
+<h4 id="org6e473cb">While</h4>
+<div class="outline-text-4" id="text-org6e473cb">
+<div class="org-src-container">
+<pre class="src src-sh">while true; do
+    echo "hello"
+done
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b80c73" class="outline-3">
+<h3 id="org2b80c73">Functions</h3>
+<div class="outline-text-3" id="text-org2b80c73">
+<div class="org-src-container">
+<pre class="src src-sh">my_fun() {
+    echo "hello world"
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org94555ec" class="outline-4">
+<h4 id="org94555ec">Arguments</h4>
+<div class="outline-text-4" id="text-org94555ec">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">syntax</td>
+<td class="org-left">utility</td>
+</tr>
+
+<tr>
+<td class="org-left">:-------</td>
+<td class="org-left">:-------------------------------------</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>$#</code></td>
+<td class="org-left">Number of arguments</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>$*</code></td>
+<td class="org-left">All arguments (as single value)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>$@</code></td>
+<td class="org-left">All arguments (as separated strings)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>$1</code></td>
+<td class="org-left">First argument (<code>$2</code>, <code>$3</code>, &#x2026;)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>$_</code></td>
+<td class="org-left">Last argument of previous command</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7188495" class="outline-3">
+<h3 id="org7188495">Some usefull command</h3>
+<div class="outline-text-3" id="text-org7188495">
+</div>
+<div id="outline-container-orgda32633" class="outline-4">
+<h4 id="orgda32633">Sed</h4>
+<div class="outline-text-4" id="text-orgda32633">
+<p>
+Replace all <code>hello</code> by <code>hello world</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sed 's/hello/hello world/g'
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf3f2aa0" class="outline-5">
+<h5 id="orgf3f2aa0">Regex in sed</h5>
+<div class="outline-text-5" id="text-orgf3f2aa0">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">REGEX</th>
+<th scope="col" class="org-left">FUNCTION</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>$</code></td>
+<td class="org-left">end of line</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>^</code></td>
+<td class="org-left">first non blank char</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>.</code></td>
+<td class="org-left">any char</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>+</code></td>
+<td class="org-left">one or any</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>*</code></td>
+<td class="org-left">0 or any</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[abc]</code></td>
+<td class="org-left">a or b or c</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>.{3}</code></td>
+<td class="org-left">succession of 3 chars</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>()</code></td>
+<td class="org-left">capture group</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>\1</code></td>
+<td class="org-left">reference to the first capture group</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org560a17d" class="outline-4">
+<h4 id="org560a17d">Printf</h4>
+<div class="outline-text-4" id="text-org560a17d">
+<div class="org-src-container">
+<pre class="src src-sh">printf "%s\n" "hello"
+</pre>
+</div>
+
+<p>
+Peut être utilisé pour séparer les éléments d'un tableau avec un caractère
+spécial:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">printf "%s\n" "${array[@]}"
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org816fc6b" class="outline-2">
+<h2 id="org816fc6b">tmux</h2>
+</div>
+<div id="outline-container-orgef32425" class="outline-2">
+<h2 id="orgef32425">Arch</h2>
+<div class="outline-text-2" id="text-orgef32425">
+</div>
+<div id="outline-container-orgce992e3" class="outline-3">
+<h3 id="orgce992e3">Pacman</h3>
+<div class="outline-text-3" id="text-orgce992e3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">COMMAND</th>
+<th scope="col" class="org-left">UTILITY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>sudo pacman -S pkg</code></td>
+<td class="org-left">package installation</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -Syu</code></td>
+<td class="org-left">update all pkgs</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo Syy</code></td>
+<td class="org-left">double check</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -Sw pkg</code></td>
+<td class="org-left">download rather than install</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Ss regx</code></td>
+<td class="org-left">searching for program</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -Rs pkg</code></td>
+<td class="org-left">remove program and dependencies</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -Rns pkg</code></td>
+<td class="org-left">remove program, dep, and dotfiles</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Q</code></td>
+<td class="org-left">list all package installed</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Qe</code></td>
+<td class="org-left">list all program manually installed</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Qn</code></td>
+<td class="org-left">list all programs installed from the main repo</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Qm</code></td>
+<td class="org-left">list all programs installed from the aur</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Qdt</code></td>
+<td class="org-left">list dependencies</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -Sc</code></td>
+<td class="org-left">remove old packages from cash</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sudo pacman -U pkg</code></td>
+<td class="org-left">downgrade pkg</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org5158195" class="outline-3">
+<h3 id="org5158195">Arch Maintenance</h3>
+<div class="outline-text-3" id="text-org5158195">
+</div>
+<div id="outline-container-orgaa8fa88" class="outline-4">
+<h4 id="orgaa8fa88">Searching for errors</h4>
+<div class="outline-text-4" id="text-orgaa8fa88">
+<div class="org-src-container">
+<pre class="src src-sh">systemctl --failed
+sudo journalctl -p 3 -xb
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4332952" class="outline-4">
+<h4 id="org4332952">Cleaning</h4>
+<div class="outline-text-4" id="text-org4332952">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">COMMAND</th>
+<th scope="col" class="org-left">USAGE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>pacman -Sc</code> and <code>yay -Sc</code></td>
+<td class="org-left">clean cache (and <code>c</code> to full clean)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pacman -Qtdq</code></td>
+<td class="org-left">check for orphan packages</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yay -Yc</code></td>
+<td class="org-left">clean unwanted dependencies</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>journalctl --vacuum-time=2weeks</code></td>
+<td class="org-left">clean journal files (keep 2 weeks)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>find / -xtype l -print</code></td>
+<td class="org-left">find brocken symlinc</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org3696054" class="outline-5">
+<h5 id="org3696054">rmlint</h5>
+<div class="outline-text-5" id="text-org3696054">
+<p>
+Utility program to install that removes duplicates files. Run <code>rmlint</code>
+as root and then run <code>./rmlint.sh</code> (which is created after running the
+<code>rmlint</code> command). All the files that will be removed are listed in
+<code>rmlint.json</code> (file created in the current directory).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org32e0a4c" class="outline-4">
+<h4 id="org32e0a4c">Reflector</h4>
+<div class="outline-text-4" id="text-org32e0a4c">
+<p>
+Some reflector examples:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo reflector -c France -a -6 -p https --sort rate --save /etc/pacman.d/mirrorlist --download-timeout=60
+sudo reflector --verbose --connection-timeout 5 --cache-timeout 5 --latest 10 --sort rate -f 10 --save /etc/pacman.d/mirrorlist
+sudo reflector --verbose -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2e410b0" class="outline-3">
+<h3 id="org2e410b0">Mirror phone</h3>
+<div class="outline-text-3" id="text-org2e410b0">
+<p>
+This requires two packages available in the AUR:
+</p>
+
+<ul class="org-ul">
+<li><code>scrcpy</code> for screen only</li>
+<li><code>sndcpy</code> for the sound</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: drfailer</p>
+<p class="date">Created: 2022-09-18 Sun 16:01</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
